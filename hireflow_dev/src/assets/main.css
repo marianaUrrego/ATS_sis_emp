@@ -1,0 +1,15 @@
+/* Fuente Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Colores para par de botones juntos*/
+  --color--buttonpair--black: #5e72e5;
+  --color--buttonpair--purple: #182b4d;
+
+  /*Color azul default*/
+  --color--default--blue: #0983ff;
+}
