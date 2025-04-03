@@ -109,3 +109,156 @@ create table core.experiencia (
 	anios int not null ,
 	primary key (id_area,id_oferta)
 );
+
+-- insertar todos los estados disponibles
+
+insert into core.estados (nombre)
+values('Aceptado'),('Rechazado'),('Por revisar'),('Fase de prueba'),('Fase de entrevista'),('Finalista');
+
+-- procedimientos para la insersión de datos
+
+create or replace procedure core.p_insertar_departamento(
+    param_nombre text
+)
+language plpgsql
+as 
+$$
+declare
+    total_repetidos integer;
+begin
+
+    -- Se comprueban nulos o en blanco
+    if param_nombre is null or length(param_nombre) = 0 
+	then
+    	raise exception 'El nombre no puede ser nulo o en blanco';
+    end if;
+
+    -- Se comprueban si esta repetido
+    select count(id) into total_repetidos
+        from core.departamentos
+        where lower(nombre) = lower(param_nombre);
+    
+    if total_repetidos > 0  
+	then
+        raise exception 'Ya existe un departamento con ese nombre';
+    end if;
+
+    insert into core.departamentos (nombre)
+        values (param_nombre);
+end;
+$$;
+
+create or replace procedure core.p_insertar_oferta(
+    param_nombre text,
+    param_departamento text,
+    param_perfil text
+)
+language plpgsql
+as 
+$$
+declare
+    total_registros integer;
+	id_departamento integer;
+begin
+
+    -- Se comprueban nulos o en blanco
+    if param_nombre is null or length(param_nombre) = 0 then
+        raise exception 'El nombre no puede ser nulo o en blanco';
+	elsif param_departamento is null or length(param_departamento) = 0 then
+		raise exception 'El departamento no puede ser nulo o en blanco';
+	elsif param_perfil is null or length( param_perfil) = 0 then
+		raise exception 'EL perfil no puede estar nulo o en blanco';
+    end if;
+
+    -- Se comprueban si esta repetido
+    select count(id) into total_registros
+        from core.ofertas
+        where lower(nombre) = lower(param_nombre);
+    
+    if total_registros > 0  then
+        raise exception 'Ya existe una oferta con ese nombre';
+    end if;
+	-- se comprueba que exista el departamento
+	select count(id) into total_registros
+    from core.departamentos
+    where lower(nombre) = lower(param_departamento);
+   	
+    if total_registros = 0 then
+        raise exception 'No existe un departamento registrado con ese nombre';
+    end if;
+   
+	select id into id_departamento 
+	from core.departamentos
+	where lower(nombre) = lower(param_departamento);
+
+    insert into core.ofertas (nombre,id_departamento, perfil)
+        values (param_nombre, id_departamento,param_perfil);
+end;
+$$;
+
+
+create or replace procedure core.p_insertar_aplicacion(
+    param_nombre text,
+    param_cv text,
+    param_id_oferta uuid,
+    param_id_estado uuid
+)
+language plpgsql
+as 
+$$
+declare
+	total_registros integer;
+	param_id_aplicante integer;
+begin
+
+    -- Se comprueban nulos o en blanco
+    if param_nombre is null or length(param_nombre) = 0 then
+    	raise exception 'El nombre no puede ser nulo o en blanco';
+	elsif param_cv is null or length(param_cv)= 0 then
+		raise exception 'El CV no puede ser nulo o en blanco';
+	elsif param_id_oferta is null then
+		raise exception 'El campo de la oferta no puede ser nulo o en blanco';
+	elsif param_fecha_aplicacion is null then
+		raise exception 'El campo de la fecha no puede ser nulo o en blanco';
+	elsif param_estado is null then
+		raise exception 'El campo de la oferta no puede ser nulo o en blanco';
+    end if;
+
+	-- se comprueba si la oferta existe
+	select count(id) into total_registros
+	from core.ofertas
+	where id = param_id_oferta;
+
+	if total_registros = 0 then
+		raise exception 'No existe una oferta con este ID' ;
+	end if;
+	
+	-- se comprueba si existe una aplicación de la persona a la oferta
+	select count(id) into total_registros
+    from core.aplicaciones as apc inner join core.aplicantes as apl on apc.id_aplicante = apl.id
+    where id_oferta = param_id_oferta and apl.nombre = param_nombre ;
+    
+    if total_registros > 0  then
+        raise exception 'Ya existe una aplicación de esta persona a la oferta seleccionada';
+	end if;
+
+	-- se comprueba si la persona ya está en la base de datos de aplicantes
+	select count(id) into total_registros 
+	from core.aplicantes
+	where nombre = param_nombre;
+
+	-- si no, se ingresa a la tabla
+	if total_registros = 0 then
+		insert into core.aplicantes (nombre,cv)
+        values (param_nombre,param_cv);
+	end if;
+	-- se obtiene el id del aplicante
+	select id into param_id_aplicante
+		from core.aplicantes
+		where nombre = param_nombre;
+	-- se insertan los datos en la tabla
+	insert into aplicaciones(id_aplicante,id_oferta, fecha_aplicación,id_estado)
+	values (param_nombre,param_id_oferta, CURRENT_DATE,param_id_estado);
+
+end;
+$$;
