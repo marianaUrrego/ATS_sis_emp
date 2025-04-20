@@ -44,6 +44,7 @@ create table core.departamentos (
 create table core.aplicantes (
     id uuid default gen_random_uuid() primary key,
     nombre varchar(30) not null ,
+	correo varchar(100) not null unique,
     cv varchar(100) not null
 );
 
@@ -199,6 +200,7 @@ $$;
 
 create or replace procedure core.p_insertar_aplicacion(
     param_nombre text,
+	param_correo text,
     param_cv text,
     param_id_oferta uuid,
     param_id_estado uuid
@@ -214,6 +216,8 @@ begin
     -- Se comprueban nulos o en blanco
     if param_nombre is null or length(param_nombre) = 0 then
     	raise exception 'El nombre no puede ser nulo o en blanco';
+	elsif param_correo is null or length(param_correo) = 0 then
+		raise exception 'El correo electrónico no puede ser nulo';
 	elsif param_cv is null or length(param_cv)= 0 then
 		raise exception 'El CV no puede ser nulo o en blanco';
 	elsif param_id_oferta is null then
@@ -236,7 +240,7 @@ begin
 	-- se comprueba si existe una aplicación de la persona a la oferta
 	select count(id) into total_registros
     from core.aplicaciones as apc inner join core.aplicantes as apl on apc.id_aplicante = apl.id
-    where id_oferta = param_id_oferta and apl.nombre = param_nombre ;
+    where id_oferta = param_id_oferta and apl.correo = param_correo ;
     
     if total_registros > 0  then
         raise exception 'Ya existe una aplicación de esta persona a la oferta seleccionada';
@@ -245,12 +249,12 @@ begin
 	-- se comprueba si la persona ya está en la base de datos de aplicantes
 	select count(id) into total_registros 
 	from core.aplicantes
-	where nombre = param_nombre;
+	where correo = param_correo;
 
 	-- si no, se ingresa a la tabla
 	if total_registros = 0 then
 		insert into core.aplicantes (nombre,cv)
-        values (param_nombre,param_cv);
+        values (param_nombre,param_correo,param_cv);
 	end if;
 	-- se obtiene el id del aplicante
 	select id into param_id_aplicante
