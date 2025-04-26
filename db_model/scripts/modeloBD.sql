@@ -36,6 +36,11 @@ create extension if not exists "uuid-ossp";
 create extension if not exists "uuid-ossp";
  -- conectandose desde el usuario user_db
  
+create table core.usuarios (
+	correo varchar(100) primary key,
+	contraseña varchar (300) not null
+)
+
 create table core.departamentos (
     id uuid default gen_random_uuid() primary key,
     nombre varchar(30) not null unique
