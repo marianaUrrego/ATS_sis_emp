@@ -1,5 +1,6 @@
 from models.ofertas import Oferta , Departamento
-from sqlalchemy import text, Uuid
+from sqlalchemy import text, Uuid, func
+from sqlalchemy.orm import joinedload
 
 class OfertasRepository:
     
@@ -8,7 +9,7 @@ class OfertasRepository:
         self.db = db_session
 
     def get_all_offers(self):
-        return self.db.query(Oferta).all()
+         return self.db.query(Oferta).options(joinedload(Oferta.departamento)).all()
 
     def get_Oferta_by_id(self, uuid : Uuid):
         return self.db.query(Oferta).filter(Oferta.id == uuid).first()
@@ -25,6 +26,7 @@ class OfertasRepository:
             "param_perfil": perfil
         })
         self.db.commit()
+        return "oferta creada exitosamente"
 
 class DepartamentoRepository:
     def __init__(self, db_session):
@@ -34,10 +36,11 @@ class DepartamentoRepository:
         return self.db.query(Departamento).all()
 
     def get_departamento_by_id(self, uuid : Uuid):
-        return self.db.query(Departamento).filter(Departamento.id == uuid).first()
+        dep = self.db.query(Departamento).filter(Departamento.id == uuid).first()
+        return dep.nombre if dep else None
     
     def get_departamento_by_name(self, nombre: str):
-        return self.db.query(Departamento).filter(Departamento.nombre == nombre.lower()).first()
+        return self.db.query(Departamento).filter(func.lower(Departamento.nombre) == nombre.lower()).first()
 
     def insertar_Departamento(self, nombre: str):
 

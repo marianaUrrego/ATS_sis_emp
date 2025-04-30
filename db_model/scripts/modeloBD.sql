@@ -164,7 +164,7 @@ as
 $$
 declare
     total_registros integer;
-	id_departamento integer;
+	id_departamento uuid;
 begin
 
     -- Se comprueban nulos o en blanco
