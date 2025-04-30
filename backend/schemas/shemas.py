@@ -14,9 +14,3 @@ class OfertaCreate(BaseModel):
     nombre: str
     departamento: str
     perfil: str
-
-class Oferta(BaseModel):
-    id : UUID
-    nombre : str
-    id_departamento : UUID
-    perfil : str

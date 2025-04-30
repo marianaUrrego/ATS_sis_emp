@@ -53,4 +53,3 @@ def get_user_by_email (email, db=Depends(get_db)):
     usuario = user_repo.get_user_by_email(email)
     return usuario
 
-#para iniciar el servidor se usa python -m uvicorn api:app --reload     
