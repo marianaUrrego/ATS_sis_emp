@@ -7,7 +7,7 @@ from models.usuarios import Usuarios
 from typing import List
 import bcrypt
 
-# para instalar fastapi :          pip install fastapi 
+# para instalar fastapi : pip install fastapi 
 # o si de esta manera no funciona: python -m pip install fastapi
 
 # para instalar uvicorn : python -m pip install uvicorn    
