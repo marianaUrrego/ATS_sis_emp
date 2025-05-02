@@ -59,7 +59,7 @@ create table core.titulos (
 );
 
 create table core.estados (
-    id uuid default gen_random_uuid() primary key,
+    id integer generated always as identity primary key,
     nombre varchar(30) not null unique
 );
 
@@ -83,6 +83,7 @@ create table core.ofertas (
 	 id_departamento uuid not null constraint departamento_fk references core.departamentos(id),
 	 perfil varchar(300) not null
 );
+
 create table core.aplicaciones (
 	id_aplicante uuid not null constraint aplicantes_fk references core.aplicantes(id),
 	id_oferta uuid not null constraint ofertas_fk references core.ofertas(id),

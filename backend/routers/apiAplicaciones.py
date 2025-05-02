@@ -8,9 +8,12 @@ import os
 from uuid import UUID 
 from repositories.repositorio_aplicante import AplicanteRepository
 from models.aplicaciones import Aplicacion, Aplicante
+from models.ofertas import Oferta
 from schemas.shemas import AplicacionResponse
 from typing import List
 from dotenv import load_dotenv
+from utils.pdf_utils import extraer_texto_pdf
+from utils.gemini_handler import coordinar_peticion
 
 
 def get_db():
@@ -49,11 +52,9 @@ def insertar_aplicación(db=Depends(get_db),
     nombre: str = Form(...),
     correo: str = Form(...),
     id_oferta: str = Form(...),
-    id_estado: str = Form(...),
     file: UploadFile = File(...)):
 
     id_oferta_uuid = UUID(id_oferta)
-    id_estado_uuid = UUID(id_estado)
 
     file_location = f"temp/{file.filename}"  # se guarda en una carpeta temporal
     
@@ -63,11 +64,21 @@ def insertar_aplicación(db=Depends(get_db),
     aplicante.correo = correo
     with open(file_location, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
-
+        
+    # Extraer texto de la aplicación del PDF
+    texto_cv = extraer_texto_pdf(file_location)
+    
+    # Obtener texto de la oferta desde la base de datos
+    oferta = db.query(Oferta).filter(Oferta.id == id_oferta_uuid).first()
+    if not oferta:
+        raise HTTPException(status_code=404, detail="Oferta no encontrada")
+    
+    # Obtener texto de la oferta
+    texto_oferta = oferta.perfil
 
     aplicante.cv = upload_file_to_blob(file_location,file.filename)
     aplication = Aplicacion()
-    aplication.id_estado = id_estado_uuid
+    aplication.id_estado = coordinar_peticion(texto_cv, texto_oferta)
     aplication.id_oferta = id_oferta_uuid
 
     os.remove(file_location)  # se elimina del almacenamiento local

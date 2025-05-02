@@ -1,4 +1,4 @@
-from sqlalchemy import Column,Column, Date, ForeignKey, Uuid, String
+from sqlalchemy import Column,Column, Date, ForeignKey, Uuid, String, Integer
 from database import Base  # ← usamos Base
 from sqlalchemy.orm import relationship
 
@@ -11,7 +11,7 @@ class Aplicacion(Base):
     __table_args__ = {"schema": "core"}
 
     id_aplicante = Column(Uuid, ForeignKey("core.aplicantes.id"), primary_key=True)
-    id_oferta = Column(Uuid, ForeignKey("core.ofertas.id"), primary_key=True)
+    id_oferta = Column(Integer, ForeignKey("core.ofertas.id"), primary_key=True)
     fecha_aplicacion = Column(Date, nullable=False)
     id_estado = Column(Uuid, ForeignKey("core.estados.id"), nullable=False)
 
