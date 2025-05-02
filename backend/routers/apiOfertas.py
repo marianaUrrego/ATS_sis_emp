@@ -5,7 +5,6 @@ from repositories.repositorio_ofertas import DepartamentoRepository, OfertasRepo
 from schemas.shemas import OfertaCreate, Departamentos
 from typing import List
 
-
 router = APIRouter(prefix="/ofertas", tags=["Ofertas"])
 
 # Dependencia para la sesión

@@ -6,6 +6,8 @@ from schemas.shemas import UserCreate
 from models.usuarios import Usuarios
 from typing import List
 import bcrypt
+import os
+from utils.pdf_utils import extraer_texto_pdf
 
 # para instalar fastapi : pip install fastapi 
 # o si de esta manera no funciona: python -m pip install fastapi
@@ -52,4 +54,3 @@ def get_user_by_email (email, db=Depends(get_db)):
     user_repo = UserRepository(db)
     usuario = user_repo.get_user_by_email(email)
     return usuario
-

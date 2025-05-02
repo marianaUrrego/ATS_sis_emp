@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import apiOfertas, apiUsuarios
+from routers import apiOfertas, apiUsuarios, apiTest
 
 #python -m pip install routers
 # para instalar fastapi :          pip install fastapi 
@@ -12,6 +12,7 @@ app = FastAPI()
 
 app.include_router(apiUsuarios.router)
 app.include_router(apiOfertas.router)
+app.include_router(apiTest.router)
 
 @app.get("/")
 def root():
