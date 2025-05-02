@@ -203,19 +203,12 @@ end;
 $$;
 
 
-create or replace procedure core.p_insertar_aplicacion(
-    param_nombre text,
-	param_correo text,
-    param_cv text,
-    param_id_oferta uuid,
-    param_id_estado uuid
-)
-language plpgsql
-as 
-$$
+CREATE OR REPLACE PROCEDURE core.p_insertar_aplicacion(IN param_nombre text, IN param_correo text, IN param_cv text, IN param_id_oferta uuid, IN param_id_estado uuid)
+ LANGUAGE plpgsql
+AS $procedure$
 declare
 	total_registros integer;
-	param_id_aplicante integer;
+	param_id_aplicante uuid;
 begin
 
     -- Se comprueban nulos o en blanco
@@ -227,9 +220,7 @@ begin
 		raise exception 'El CV no puede ser nulo o en blanco';
 	elsif param_id_oferta is null then
 		raise exception 'El campo de la oferta no puede ser nulo o en blanco';
-	elsif param_fecha_aplicacion is null then
-		raise exception 'El campo de la fecha no puede ser nulo o en blanco';
-	elsif param_estado is null then
+	elsif param_id_estado is null then
 		raise exception 'El campo de la oferta no puede ser nulo o en blanco';
     end if;
 
@@ -258,16 +249,17 @@ begin
 
 	-- si no, se ingresa a la tabla
 	if total_registros = 0 then
-		insert into core.aplicantes (nombre,cv)
-        values (param_nombre,param_correo,param_cv);
+		insert into core.aplicantes (nombre,cv,correo)
+        values (param_nombre,param_cv,param_correo);
 	end if;
 	-- se obtiene el id del aplicante
 	select id into param_id_aplicante
 		from core.aplicantes
 		where nombre = param_nombre;
 	-- se insertan los datos en la tabla
-	insert into aplicaciones(id_aplicante,id_oferta, fecha_aplicación,id_estado)
-	values (param_nombre,param_id_oferta, CURRENT_DATE,param_id_estado);
+	insert into core.aplicaciones(id_aplicante,id_oferta, fecha_aplicacion,id_estado)
+	values (param_id_aplicante ,param_id_oferta, CURRENT_DATE,param_id_estado);
 
 end;
-$$;
+$procedure$
+;
