@@ -16,6 +16,7 @@ class Oferta(Base):
     perfil = Column(String)
    
     departamento = relationship("Departamento")
+    aplicaciones = relationship("Aplicacion")
 
 class Departamento(Base):
 

@@ -15,7 +15,7 @@ class OfertasRepository:
         return self.db.query(Oferta).filter(Oferta.id == uuid).first()
     
     def get_oferta_by_name(self, nombre: str):
-        return self.db.query(Oferta).filter(Oferta.nombre == nombre.lower()).first()
+        return self.db.query(Oferta).filter(func.lower(Oferta.nombre) == nombre.lower()).first()
 
     def insertar_oferta(self, nombre: str, departamento: str, perfil: str):
 
