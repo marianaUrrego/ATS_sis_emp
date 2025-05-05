@@ -11,7 +11,7 @@ class Oferta(Base):
     __tablename__ = "ofertas"
 
     id= Column(Uuid,primary_key=True)
-    nombre = Column(Uuid, unique_key=True)
+    nombre = Column(Uuid, unique=True)
     id_departamento= Column(Uuid, ForeignKey('core.departamentos.id'))
     perfil = Column(String)
    
@@ -23,4 +23,4 @@ class Departamento(Base):
     __tablename__ = "departamentos"
 
     id= Column(Uuid,primary_key=True)
-    nombre = Column(Uuid, unique_key=True)
+    nombre = Column(Uuid, unique=True)
