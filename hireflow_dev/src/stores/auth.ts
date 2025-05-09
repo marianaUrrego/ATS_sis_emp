@@ -4,7 +4,7 @@ import { fetchWrapper } from '@/utils/helpers/fetch-wrapper';
 
 const baseUrl = `${import.meta.env.VITE_API_URL}/users`;
 
-export const useAuthStore = defineStore('auth',{
+export const useAuthStore = defineStore('auth', {
 
     state: () => ({
         // initialize state from local storage to enable user to stay logged in

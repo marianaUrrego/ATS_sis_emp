@@ -6,15 +6,13 @@ import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 
 import { BasicDatatables } from '@/_mockApis/components/datatable/dataTable';
-import AddNote from '@/components/apps/notes/AddNote.vue';
 
 /*Call Components*/
 import ProfitCard from '@/components/dashboards/dashboard2/ProfitCard.vue';
 import SubscriptionCard from '@/components/dashboards/dashboard2/SubscriptionCard.vue';
 import UsersChart from '@/components/dashboards/dashboard2/UsersChart.vue';
-import ProifileCard from '@/components/dashboards/dashboard2/ProifileCard.vue';
 
-import SetupProcess from '@/components/frontpages/AboutUs/SetupProcess.vue';
+import CardsDashboard from '@/components/dashboards/dashboard2/CardsDashboard.vue';
 
 
 // template breadcrumb
@@ -77,10 +75,9 @@ function filterOnlyCapsText(value: { toString: () => string; } | null, query: st
         <v-col cols="12" xl="5" class="py-3 pl-6 pr-4 d-flex align-center">
             <v-row>
                 <h3 class="display-1 textPrimary font-weight-bold ">Developer</h3>
-
             </v-row>
             <div class="ml-auto">
-                <v-btn color="primary" @click="dialog = true">Crear nueva oferta</v-btn>
+                <v-btn color="primary">Crear nueva oferta</v-btn>
             </div>
         </v-col>
 
@@ -125,7 +122,7 @@ function filterOnlyCapsText(value: { toString: () => string; } | null, query: st
             </UiParentCard>
         </v-col>
         <DefaultLayout>
-            <SetupProcess />
+            <CardsDashboard />
         </DefaultLayout>
     </v-row>
 </template>
