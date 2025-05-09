@@ -9,8 +9,8 @@ Este repositorio contiene el frontend de la aplicación, desarrollado en **Vue 3
 
 1. **Clonar el repositorio**
    ```bash
-   git clone https://github.com/usuario/nombre-del-repo.git
-   cd nombre-del-repo
+   git clone https://github.com/marianaUrrego/ATS_sis_emp.git
+   cd ATS_sis_emp
    ```
 
 2. **Instalar dependencias**
