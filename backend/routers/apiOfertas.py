@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends
 from fastapi import HTTPException
 from database import SessionLocal
 from repositories.repositorio_ofertas import DepartamentoRepository, OfertasRepository
-from schemas.shemas import OfertaCreate, Departamentos
+from schemas.shemas import OfertaCreate, Departamentos, OfertaMostrar
 from typing import List
 
 router = APIRouter(prefix="/ofertas", tags=["Ofertas"])
@@ -40,7 +40,7 @@ def create_oferta(oferta : OfertaCreate, db=Depends(get_db)):
     if(msg):
         id_oferta = oferta_repo.get_oferta_by_name(oferta.nombre)
         oferta_repo.insertar_requisitos_oferta(
-            id_oferta,
+            id_oferta.id,
             oferta.habilidades_blandas,
             oferta.habilidades_tecnicas,
             oferta.titulos,
@@ -49,16 +49,17 @@ def create_oferta(oferta : OfertaCreate, db=Depends(get_db)):
         "oferta creada exitosamente"
     }
 
-@router.get("/", response_model=List[OfertaCreate])
+@router.get("/", response_model=List[OfertaMostrar])
 def get_all_ofertas(db=Depends(get_db)):
     oferta_repo = OfertasRepository(db)
     ofertas = oferta_repo.get_all_offers()
 
     return [
-        OfertaCreate(
+        OfertaMostrar(
             nombre=oferta.nombre,
             departamento=oferta.departamento.nombre,
-            perfil=oferta.perfil
+            perfil=oferta.perfil,
+            fecha_creacion= oferta.fecha_creacion
         )
         for oferta in ofertas
     ]

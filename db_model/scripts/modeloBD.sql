@@ -287,7 +287,7 @@ begin
 	from core.departamentos
 	where lower(nombre) = lower(param_departamento);
 
-    insert into core.ofertas (nombre,id_departamento, perfil)
+    insert into core.ofertas (nombre,id_departamento, perfil, fecha_creacion)
         values (param_nombre, id_departamento,param_perfil, CURRENT_DATE);
 end;
 $$;

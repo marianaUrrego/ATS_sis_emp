@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from uuid import UUID 
 from typing import List
+from datetime import date
 # python -m pip install uuid
 
 class UserCreate(BaseModel):
@@ -27,4 +28,10 @@ class AplicacionResponse(BaseModel):
     oferta: str
     id_estado: UUID
     estado: str
+
+class OfertaMostrar(BaseModel):
+    nombre: str
+    departamento: str
+    perfil: str
+    fecha_creacion: date
     
