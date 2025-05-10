@@ -18,38 +18,38 @@ type UserReviews = {
 type ThemeFeatures = {
     icon: any;
     title: string;
-    color:string;
+    color: string;
 };
 
-type PackagesPriceType={
+type PackagesPriceType = {
     listtitle: string;
-    status:boolean;
-    icon:boolean;
-    disable:boolean;
+    status: boolean;
+    icon: boolean;
+    disable: boolean;
 };
 
 type PackageType = {
     caption: string;
-    subtext:string;
+    subtext: string;
     price: number;
-    period:string;
+    period: string;
     buttontext: string;
     url: string;
     tagtext: boolean;
-    list:PackagesPriceType[];
+    list: PackagesPriceType[];
 };
 
 type FooterType = {
-    menu:string;
-    link:string
+    menu: string;
+    link: string
 }
 
-type Feature={
-    icon:string;
-    title:string;
-    subtitle:string;
-    bgcolor:string;
-    color:string;
+type Feature = {
+    icon: string;
+    title: string;
+    subtitle: string;
+    bgcolor: string;
+    color: string;
 }
 
-export type { LeaderType, TemplateType,UserReviews,ThemeFeatures,PackageType,FooterType,Feature};
+export type { LeaderType, TemplateType, UserReviews, ThemeFeatures, PackageType, FooterType, Feature };

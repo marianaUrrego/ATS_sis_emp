@@ -5,6 +5,7 @@ import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 
+//Base de datos simulada
 import { BasicDatatables } from '@/_mockApis/components/datatable/dataTable';
 
 /*Call Components*/

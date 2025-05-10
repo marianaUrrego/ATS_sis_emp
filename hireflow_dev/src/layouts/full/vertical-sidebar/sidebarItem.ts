@@ -15,22 +15,22 @@ export interface menu {
     type?: string;
     subCaption?: string;
 }
-
+//Aqui agarra los iconos de solar
 const sidebarItem: menu[] = [
     { header: 'DASHBOARDS' },
     {
-        title: 'Dashboard1',
-        icon: 'widget-add-line-duotone',
+        title: 'Home',
+        icon: 'home-2-line-duotone',
         to: '/dashboards/dashboard1'
     },
     {
-        title: 'Dashboard2',
-        icon: 'chart-line-duotone',
+        title: 'Ofertas de trabajo',
+        icon: 'letter-linear',
         to: '/dashboards/dashboard2'
     },
     {
-        title: 'Dashboard3',
-        icon: 'screencast-2-line-duotone',
+        title: 'Hojas de vida',
+        icon: 'user-id-line-duotone',
         to: '/dashboards/dashboard3'
     },
     { header: 'APPS' },

@@ -66,62 +66,49 @@ const AboutFeatures: Feature[] = [
         color: 'dark '
     }
 ];
-
-const QA1: faqPageType[] = [
+//CREADA
+const DashboardFeatures: Feature[] = [
     {
-        question: 'Combine teammate schedules',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
+        icon: 'material-symbols:check-circle',
+        title: 'Aceptados',
+        subtitle: '3.45% desde el mes pasado',
+        bgcolor: 'lightsuccess',
+        color: 'success'
     },
     {
-        question: 'Factor in outside colleagues',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
+        icon: 'material-symbols:warning',
+        title: 'Por revisar',
+        subtitle: '3.45% desde el mes pasado',
+        bgcolor: 'lightwarning',
+        color: 'warning'
     },
     {
-        question: 'Round robin pooling',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
-    }
-];
-const QA2: faqPageType[] = [
-    {
-        question: 'Combine teammate schedules 2',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
+        icon: 'material-symbols:cancel',
+        title: 'Rechazados',
+        subtitle: '3.45% desde el mes pasado',
+        bgcolor: 'lighterror',
+        color: 'error'
     },
     {
-        question: 'Factor in outside colleagues',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
+        icon: 'tabler:clipboard-text',
+        title: 'Fase de prueba',
+        subtitle: '3.45% desde el mes pasado',
+        bgcolor: 'lightprimary',
+        color: 'primary'
     },
     {
-        question: 'Round robin pooling',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
-    }
-];
-const QA3: faqPageType[] = [
-    {
-        question: 'Combine teammate schedules 3',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
+        icon: 'tabler:user-circle',
+        title: 'Fase de entrevista',
+        subtitle: '3.45% desde el mes pasado',
+        bgcolor: 'lightsecondary',
+        color: 'secondary '
     },
     {
-        question: 'Factor in outside colleagues',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
-    },
-    {
-        question: 'Round robin pooling',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
-    }
-];
-
-const QA4: faqPageType[] = [
-    {
-        question: 'Combine teammate schedules 4',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
-    },
-    {
-        question: 'Factor in outside colleagues',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
-    },
-    {
-        question: 'Round robin pooling',
-        answer: 'Factor in availability for required attendees, and skip checking for conflicts for optional attendees.'
+        icon: 'tabler:target-arrow',
+        title: 'Finalistas',
+        subtitle: '3.45% desde el mes pasado',
+        bgcolor: 'lightsuccess',
+        color: 'success'
     }
 ];
 
@@ -571,10 +558,6 @@ const userReviewFrront: UserReviewTypes[] = [
     }
 ];
 export {
-    QA1,
-    QA2,
-    QA3,
-    QA4,
     OurLeaders,
     templateText,
     ThemeFeature1,
@@ -587,5 +570,6 @@ export {
     FooterMenu3,
     Features,
     userReviewFrront,
-    AboutFeatures
+    AboutFeatures,
+    DashboardFeatures
 };
