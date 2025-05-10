@@ -24,9 +24,14 @@ const sidebarItem: menu[] = [
         to: '/dashboards/dashboard1'
     },
     {
-        title: 'Ofertas de trabajo',
+        title: 'Oferta de trabajo',
         icon: 'letter-linear',
         to: '/dashboards/dashboard2'
+    },
+    {
+        title: 'Ofertas de trabajo',
+        icon: 'letter-linear',
+        to: '/dashboards/paginaOfertas'
     },
     {
         title: 'Hojas de vida',

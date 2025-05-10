@@ -22,6 +22,11 @@ const MainRoutes = {
             component: () => import('@/views/dashboards/dashboard3/index.vue')
         },
         {
+            name: 'PaginaOfertas',
+            path: '/dashboards/paginaOfertas',
+            component: () => import('@/views/dashboards/paginaOfertas/index.vue')
+        },
+        {
             name: 'Ticket',
             path: '/apps/tickets',
             component: () => import('@/views/apps/tickets/index.vue')

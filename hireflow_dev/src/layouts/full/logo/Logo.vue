@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router';
-import Logoimg from '@/assets/images/logos/logo.svg';
+import Logoimg from '@/assets/images/logos/logo.png';
 </script>
 <template>
     <div class="logo">

@@ -81,7 +81,8 @@ create table core.ofertas (
 	 id uuid default gen_random_uuid() primary key,
 	 nombre varchar(50) not null,
 	 id_departamento uuid not null constraint departamento_fk references core.departamentos(id),
-	 perfil varchar(300) not null
+	 perfil varchar(300) not null,
+	 fecha_creacion date not null
 );
 
 create table core.aplicaciones (
