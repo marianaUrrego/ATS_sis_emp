@@ -37,6 +37,14 @@ def create_oferta(oferta : OfertaCreate, db=Depends(get_db)):
         raise HTTPException(status_code=404, detail="El departamento no existe")
 
     msg=  oferta_repo.insertar_oferta(oferta.nombre, oferta.departamento, oferta.perfil)
+    if(msg):
+        id_oferta = oferta_repo.get_oferta_by_name(oferta.nombre)
+        oferta_repo.insertar_requisitos_oferta(
+            id_oferta,
+            oferta.habilidades_blandas,
+            oferta.habilidades_tecnicas,
+            oferta.titulos,
+            oferta.experiencia)
     return{
         "oferta creada exitosamente"
     }

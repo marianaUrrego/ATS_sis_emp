@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Uuid, ForeignKey
+from sqlalchemy import Column, String, Uuid, ForeignKey, Date
 from database import Base  # ← usamos Base
 from sqlalchemy.orm import relationship
 
@@ -14,6 +14,7 @@ class Oferta(Base):
     nombre = Column(Uuid, unique=True)
     id_departamento= Column(Uuid, ForeignKey('core.departamentos.id'))
     perfil = Column(String)
+    fecha_creacion = Column(Date, nullable=False)
    
     departamento = relationship("Departamento")
     aplicaciones = relationship("Aplicacion")

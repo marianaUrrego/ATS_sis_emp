@@ -73,10 +73,6 @@ create table core.habilidades_tecnicas (
     nombre varchar(30) not null unique
 );
 
-create table core.area (
-    id uuid default gen_random_uuid() primary key,
-    nombre varchar(30) not null unique
-);
 create table core.ofertas (
 	 id uuid default gen_random_uuid() primary key,
 	 nombre varchar(50) not null,
@@ -113,9 +109,8 @@ create table core.habilidades_tecnicasxoferta (
 
 create table core.experiencia (
 	id_oferta uuid not null constraint ofertas_fk references core.ofertas(id),
-	id_area uuid not null constraint hab_tecnica_fk references core.area(id),
-	anios int not null ,
-	primary key (id_area,id_oferta)
+	descripcion varchar not null ,
+	primary key (id_oferta,descripcion)
 );
 
 -- insertar todos los estados disponibles
@@ -155,6 +150,99 @@ begin
         values (param_nombre);
 end;
 $$;
+
+create or replace procedure core.insertar_requisitos_oferta(
+	param_id_oferta uuid,
+	param_habilidades_blandas text[],
+	param_habilidades_tecnicas text[],
+	param_titulos text[],
+	param_experiencia text[]
+)
+language plpgsql
+as 
+$$
+declare
+	total_registros integer;
+	id_temporal uuid;
+begin
+	-- se comprueba que la oferta si existe:
+	select count(id) into total_registros
+        from core.ofertas
+		where id = param_id_oferta;
+	
+	if total_registros = 0  then
+        raise exception 'no existe una oferta con ese id';
+    end if;
+	-- se ingresan todos los requisitos en las tablas:
+	FOREACH item IN ARRAY param_habilidades_blandas LOOP
+		begin
+			select count(id) into total_registros
+			from core.habilidades_blandas
+			where lower(nombre) = lower(item);
+
+			if(total_registros) = 0 then
+				insert into core.habilidades_blandas(nombre) values(item);
+			end if;
+
+			select id into id_temporal
+			from core.habilidades_blandas
+			where lower(nombre) = lower(item);
+
+			insert into core.habilidades_blandasxoferta(id_oferta,id_hab_blanda) values(param_id_oferta,id_temporal);
+		end;
+    END LOOP;
+
+	FOREACH item IN ARRAY param_habilidades_tecnicas LOOP
+		begin
+			select count(id) into total_registros
+			from core.habilidades_tecnicas
+			where lower(nombre) = lower(item);
+
+			if(total_registros) = 0 then
+				insert into core.habilidades_tecnicas(nombre) values(item);
+			end if;
+
+			select id into id_temporal
+			from core.habilidades_tecnicas
+			where lower(nombre) = lower(item);
+
+			insert into core.habilidades_tecnicasxoferta(id_oferta,id_hab_tecnica) values(param_id_oferta,id_temporal);
+		end;
+    END LOOP;
+
+	FOREACH item IN ARRAY param_titulos LOOP
+		begin
+			select count(id) into total_registros
+			from core.titulos
+			where lower(nombre) = lower(item);
+
+			if(total_registros) = 0 then
+				insert into core.titulos(nombre) values(item);
+			end if;
+
+			select id into id_temporal
+			from core.titulos
+			where lower(nombre) = lower(item);
+
+			insert into core.titulosxoferta(id_oferta,id_titulo) values(param_id_oferta,id_temporal);
+		end;
+    END LOOP;
+
+	FOREACH item IN ARRAY param_experiencia LOOP
+		begin
+			select count(id) into total_registros
+			from core.experiencia
+			where lower(descripcion) = lower(item);
+
+			if(total_registros) = 0 then
+				insert into core.titulos(id_oferta,descripcion) values(param_id_oferta,item);
+			end if;
+
+		end;
+    END LOOP;
+end;
+$$;
+
 
 create or replace procedure core.p_insertar_oferta(
     param_nombre text,
@@ -200,7 +288,7 @@ begin
 	where lower(nombre) = lower(param_departamento);
 
     insert into core.ofertas (nombre,id_departamento, perfil)
-        values (param_nombre, id_departamento,param_perfil);
+        values (param_nombre, id_departamento,param_perfil, CURRENT_DATE);
 end;
 $$;
 
