@@ -30,7 +30,7 @@ const depaSeleccionado = ref()
             <v-select v-model="depaSeleccionado" :items="departamentos" label="Departamento"></v-select>
         </v-col>
         <v-col>
-            <div class="ml-auto">
+            <div class="ml-auto text-right align-center">
             <v-btn color="primary">Crear nueva oferta</v-btn>
         </div>
         </v-col>

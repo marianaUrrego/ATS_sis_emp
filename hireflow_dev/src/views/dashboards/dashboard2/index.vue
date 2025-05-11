@@ -38,7 +38,7 @@ const breadcrumbs = ref([
                         <v-icon class="mr-2">mdi-plus</v-icon>Crear nueva oferta
                     </v-btn>
                 </div>
-            </v-col>
+        </v-col>
         
         <v-row>
             <!-- Estudios necesarios -->
