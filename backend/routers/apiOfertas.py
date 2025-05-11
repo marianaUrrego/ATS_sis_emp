@@ -56,6 +56,7 @@ def get_all_ofertas(db=Depends(get_db)):
 
     return [
         OfertaMostrar(
+            id= oferta.id,
             nombre=oferta.nombre,
             departamento=oferta.departamento.nombre,
             perfil=oferta.perfil,
@@ -63,4 +64,11 @@ def get_all_ofertas(db=Depends(get_db)):
         )
         for oferta in ofertas
     ]
+
+@router.get("/{idOferta}", response_model=OfertaCreate)
+def get_offer_by_id(idOferta, db= Depends(get_db)):
+    oferta_repo = OfertasRepository(db)
+    oferta = oferta_repo.get_oferta_completa(idOferta)
+    return oferta
+    
 

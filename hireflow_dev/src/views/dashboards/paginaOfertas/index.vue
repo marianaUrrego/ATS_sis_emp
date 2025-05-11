@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref,onMounted, computed } from 'vue';
 import IntroOferta from '@/components/dashboards/paginaOfertas/IntroOferta.vue';
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
 interface Card {
+  id: string
   nombre: string;
   departamento: string;
   fecha_creacion: string;
@@ -21,7 +24,7 @@ onMounted(async () => {
     cards.value = data
 
      // Obtener los departamentos
-    const resDepartamentos = await fetch('http://127.0.0.1:8000/ofertas/departamentos')
+    const resDepartamentos = await fetch('http://127.0.0.1:8000/ofertas/departamentos/')
     if (!resDepartamentos.ok) throw new Error('Error al cargar departamentos')
     const dataDepartamentos = await resDepartamentos.json()
     departamentos.value = dataDepartamentos
@@ -69,6 +72,7 @@ const ofertasFiltradas = computed(() => {
       lg="4"
     >
       <IntroOferta
+        @click="router.push({ name: 'DetalleOferta', params: { id: card.id } })"
         :nombreOferta="card.nombre"
         :departamento="card.departamento"
         :fechaCreacion="card.fecha_creacion"
