@@ -1,63 +1,54 @@
 <script setup lang="ts">
-import { ref,onMounted } from 'vue';
-import WelcomeCard from '@/components/dashboards/dashboard1/WelcomeCard.vue';
-import CustomerCard from '@/components/dashboards/dashboard1/CustomerCard.vue';
-import ProjectCard from '@/components/dashboards/dashboard1/ProjectCard.vue';
-import RevenueForcast from '@/components/dashboards/dashboard1/RevenueForcast.vue';
-import Performence from '@/components/dashboards/dashboard1/Performence.vue';
-import CustomerChart from '@/components/dashboards/dashboard1/CustomerChart.vue';
-import SalesOverview from '@/components/dashboards/dashboard1/SalesOverview.vue';
-import RevenueProducts from '@/components/dashboards/dashboard1/RevenueProducts.vue';
-import TotalSettelment from '@/components/dashboards/dashboard1/TotalSettelment.vue';
-import SnackBar from '@/components/dashboards/snackbar.vue';
-
+/*Call Components*/
+import RequerimentsCard from '@/components/dashboards/dashboard2/RequerimentsCard.vue';
 </script>
 <template>
-    <!-- Loader -->
-    <SnackBar/>
-    <!-- Loader -->
-    
+    <!--cuando pongamos info lo podemos hacer modular, como los componentes son tan chiquitos lo hice así por ahora-->
     <v-row>
-        <!-- Welcome Cards -->
-        <v-col cols="12" lg="5">
-            <v-row>
-                <v-col cols="12">
-                    <WelcomeCard />
-                </v-col>
-                <v-col cols="12" md="6">
-                    <CustomerCard />
-                </v-col>
-                <v-col cols="12" md="6">
-                    <ProjectCard />
-                </v-col>
-            </v-row>
+        <v-col cols="12" xl="5" class="py-3 pl-6 pr-4 d-flex align-center mb-5">
+                <v-row>
+                    <h3 class="display-1 textPrimary font-weight-bold ">Home</h3>
+                </v-row>
         </v-col>
-        <!-- Revenue Forecast -->
-        <v-col cols="12" lg="7">
-            <RevenueForcast />
+        <v-col cols="10" md="6">
+                <div class="bg-lightprimary pa-7 rounded-md">
+                    <h2 class="text-primary text-24">Ofertas activas</h2>
+                    <h6 class="text-primary text-h1">28</h6>
+                </div>
         </v-col>
+        <v-col cols="10" md="6">
+                <div class="bg-lightsecondary pa-7 rounded-md">
+                    <h2 class="text-secondary text-24">Ofertas activas</h2>
+                    <h6 class="text-secondary text-h1">28</h6>
+                </div>
+        </v-col>
+        <v-row>
+        <v-col cols="12">
+            <v-card variant="outlined">
+                <v-card-item>
+                    <h4 class="text-h4 text-center ">Últimos aplicantes</h4>
+                    <v-row >
+                        <v-col>
+                            <div class="d-flex gap-3 mb-5">
+                                <span class="text-h6">Sir, P P Institute Of Science</span>
+                            </div>
+                            <div class="d-flex gap-3 mb-5">
+                                <span class="text-h6">xyzjonathan@gmail.com</span>
+                            </div>
+                        </v-col>
 
-        <!-- Your Performance -->
-        <v-col cols="12" lg="5">
-            <Performence />
+                        <v-col>
+                            <div class="d-flex gap-3 mb-5">
+                                <span class="text-h6 textSecondary">www.xyz.com</span>
+                            </div>
+                            <div class="d-flex gap-3 mb-5">
+                                <p class="text-h6 textSecondary">Newyork, USA - 100001</p>
+                            </div>
+                        </v-col>
+                    </v-row>
+                </v-card-item>
+            </v-card>
         </v-col>
-        <!-- Customers / Sales Overview -->
-        <v-col cols="12" lg="7">
-            <v-row>
-                <v-col cols="12" md="6">
-                    <CustomerChart />
-                </v-col>
-                <v-col cols="12" md="6">
-                    <SalesOverview />
-                </v-col>
-            </v-row>
-        </v-col>
-        <!-- Revenue by Product / Total settlements -->
-        <v-col cols="12" lg="8">
-            <RevenueProducts />
-        </v-col>
-        <v-col cols="12" lg="4">
-           <TotalSettelment/>
-        </v-col>
+    </v-row>
     </v-row>
 </template>
