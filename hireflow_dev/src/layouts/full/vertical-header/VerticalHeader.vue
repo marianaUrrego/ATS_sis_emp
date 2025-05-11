@@ -2,30 +2,19 @@
 import { ref, watch, computed } from 'vue';
 import { useCustomizerStore } from '../../../stores/customizer';
 import { useEcomStore } from '@/stores/apps/eCommerce';
-import LanguageDD from './LanguageDD.vue';
-import NotificationDD from './NotificationDD.vue';
 import ProfileDD from './ProfileDD.vue';
-import Searchbar from './Searchbar.vue';
 import RightMobileSidebar from './RightMobileSidebar.vue';
 import Navigations from './Navigations.vue';
 import { Icon } from '@iconify/vue';
 import Logo from '../logo/Logo.vue';
 import ThemeToggler from './ThemeToggler.vue';
 const customizer = useCustomizerStore();
-const showSearch = ref(false);
 const priority = ref(customizer.setHorizontalLayout ? 0 : 0);
-function searchbox() {
-    showSearch.value = !showSearch.value;
-}
+
 watch(priority, (newPriority) => {
     priority.value = newPriority;
 });
 
-// count items
-const store = useEcomStore();
-const getCart = computed(() => {
-    return store.cart;
-});
 </script>
 
 <template>
@@ -38,18 +27,10 @@ const getCart = computed(() => {
             <Icon icon="solar:hamburger-menu-line-duotone" height="22"   />
         </v-btn>
 
-
-
         <v-btn class="hidden-lg-and-up custom-hover-primary" size="small" variant="text" color="primary" icon  @click.stop="customizer.SET_SIDEBAR_DRAWER" >
             <Icon icon="solar:hamburger-menu-line-duotone" height="22"   />
         </v-btn>
         
-        <!-- ---------------------------------------------- -->
-        <!-- Search part -->
-        <!-- ---------------------------------------------- -->
-        <Searchbar />
-
-
         <!-- ---------------------------------------------- -->
         <!-- Mega menu -->
         <!-- ---------------------------------------------- -->
@@ -68,30 +49,6 @@ const getCart = computed(() => {
 
         <!-- ThemeToggler -->
         <ThemeToggler/>
-
-        <!-- ---------------------------------------------- -->
-        <!-- translate -->
-        <!-- ---------------------------------------------- -->
-        <div class="hidden-sm-and-down">
-            <LanguageDD />
-        </div>
-
-    
-        <!-- ---------------------------------------------- -->
-        <!-- ShoppingCart -->
-        <!-- ---------------------------------------------- -->
-        <v-btn icon class="custom-hover-primary hidden-sm-and-down" size="small"  variant="text" color="primary" to="/ecommerce/checkout">
-            <v-badge color="error" :content="getCart?.length">
-                <Icon icon="solar:cart-large-2-outline" height="22"   />
-            </v-badge>
-        </v-btn>
-
-        <!-- ---------------------------------------------- -->
-        <!-- Notification -->
-        <!-- ---------------------------------------------- -->
-        <div class="hidden-sm-and-down">
-            <NotificationDD />
-        </div>
         
         <!-- ---------------------------------------------- -->
         <!-- User Profile -->
@@ -110,14 +67,6 @@ const getCart = computed(() => {
                     <v-sheet rounded="lg" elevation="10" class="mt-4 dropdown-box px-4 py-3">
                         <div class="d-flex justify-space-between align-center">
                             <RightMobileSidebar/>
-                            <LanguageDD />
-                            <v-btn icon variant="text" class="mr-sm-3 mr-2 custom-hover-primary" to="/ecommerce/checkout"
-                                size="small">
-                                <v-badge color="primary" :content="getCart?.length" offset-x="-4" offset-y="-6">
-                                    <Icon icon="solar:cart-large-2-outline" height="22"   />
-                                </v-badge>
-                            </v-btn>
-                            <NotificationDD />
                             <ProfileDD />
                         </div>
                     </v-sheet>
