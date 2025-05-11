@@ -1,43 +1,67 @@
 <script setup lang="ts">
-import { ref,onMounted } from 'vue';
+import { ref,onMounted, computed } from 'vue';
 import IntroOferta from '@/components/dashboards/paginaOfertas/IntroOferta.vue';
-const cards = [
-  {
-    nombreOferta: 'coordinador de logistica',
-    departamento: 'Logística',
-    fechaCreacion: '01/04/2024'
-  },
-  {
-    nombreOferta: 'reclutador de planta operativa',
-    departamento: 'Recursos Humanos',
-    fechaCreacion: '15/03/2023'
-  },
-  {
-    nombreOferta: 'encargado de seguridad',
-    departamento: 'Tecnología',
-    fechaCreacion: '22/11/2022'
-  }
-]
 
-const departamentos = ref(['Finanzas', 'Recursos Humanos', 'Logística', 'Tecnología', 'Ventas']);
-const depaSeleccionado = ref()
+interface Card {
+  nombre: string;
+  departamento: string;
+  fecha_creacion: string;
+}
+const cards = ref<Card[]>([])  // ahora es un ref reactivo
+
+const departamentos = ref<Array<{ id: number; nombre: string }>>([]);
+const depaSeleccionado = ref<string | null>(null);
+
+onMounted(async () => {
+  try {
+    // obtener las ofertas
+    const response = await fetch('http://127.0.0.1:8000/ofertas/')
+    if (!response.ok) throw new Error('Error al cargar ofertas')
+    const data = await response.json()
+    cards.value = data
+
+     // Obtener los departamentos
+    const resDepartamentos = await fetch('http://127.0.0.1:8000/ofertas/departamentos')
+    if (!resDepartamentos.ok) throw new Error('Error al cargar departamentos')
+    const dataDepartamentos = await resDepartamentos.json()
+    departamentos.value = dataDepartamentos
+
+  } catch (error) {
+    console.error('Error al obtener los datos:', error)
+  }
+})
+
+const ofertasFiltradas = computed(() => {
+  if (!depaSeleccionado.value) return cards.value;
+  
+  return cards.value.filter(oferta => 
+    oferta.departamento === depaSeleccionado.value
+  );
+});
 
 </script>
 <template>
-    <h3 class="display-1 textPrimary font-weight-bold " style="margin-bottom: 20px;">Ofertas de trabajo</h3>
-    <v-row>
-        <v-col>
-            <v-select v-model="depaSeleccionado" :items="departamentos" label="Departamento"></v-select>
-        </v-col>
-        <v-col>
-            <div class="ml-auto">
-            <v-btn color="primary">Crear nueva oferta</v-btn>
-        </div>
-        </v-col>
-    </v-row>
-    <v-row dense>
+  <h3 class="display-1 textPrimary font-weight-bold" style="margin-bottom: 20px;">Ofertas de trabajo</h3>
+  <v-row>
+    <v-col>
+      <v-select 
+        v-model="depaSeleccionado"
+        :items="departamentos"
+        item-title="nombre"
+        item-value="nombre"
+        label="Departamento"
+        clearable
+      ></v-select>
+    </v-col>
+    <v-col>
+      <div class="ml-auto">
+        <v-btn color="primary">Crear nueva oferta</v-btn>
+      </div>
+    </v-col>
+  </v-row>
+  <v-row dense>
     <v-col
-      v-for="(card, index) in cards"
+      v-for="(card, index) in ofertasFiltradas"
       :key="index"
       cols="12"
       sm="6"
@@ -45,11 +69,10 @@ const depaSeleccionado = ref()
       lg="4"
     >
       <IntroOferta
-        :nombreOferta=card.nombreOferta
-        :departamento = card.departamento
-        :fechaCreacion = card.fechaCreacion
+        :nombreOferta="card.nombre"
+        :departamento="card.departamento"
+        :fechaCreacion="card.fecha_creacion"
       />
     </v-col>
   </v-row>
-
 </template>
