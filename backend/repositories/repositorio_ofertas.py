@@ -1,6 +1,9 @@
 from models.ofertas import Oferta , Departamento
 from sqlalchemy import text, Uuid, func
 from sqlalchemy.orm import joinedload
+from models.requisitosOferta import HabilidadTecnica, HabilidadBlanda, Titulo, Experiencia
+from models.requisitosOferta import HabilidadTecnicaXOferta, HabilidadBlandaXOferta, TituloXOferta
+
 
 class OfertasRepository:
     
@@ -16,6 +19,53 @@ class OfertasRepository:
     
     def get_oferta_by_name(self, nombre: str):
         return self.db.query(Oferta).filter(func.lower(Oferta.nombre) == nombre.lower()).first()
+    
+    def get_oferta_completa(self, id_oferta: str):
+        # 1. Obtener la oferta principal
+        oferta = self.db.query(Oferta).options(joinedload(Oferta.departamento)).filter(Oferta.id == id_oferta).first()
+        if not oferta:
+            return None
+
+        # 2. Obtener habilidades técnicas
+        habilidades_tecnicas = (
+            self.db.query(HabilidadTecnica)
+            .join(HabilidadTecnicaXOferta, HabilidadTecnica.id == HabilidadTecnicaXOferta.id_hab_tecnica)
+            .filter(HabilidadTecnicaXOferta.id_oferta == id_oferta)
+            .all()
+        )
+
+        # 3. Obtener habilidades blandas
+        habilidades_blandas = (
+            self.db.query(HabilidadBlanda)
+            .join(HabilidadBlandaXOferta, HabilidadBlanda.id == HabilidadBlandaXOferta.id_hab_blanda)
+            .filter(HabilidadBlandaXOferta.id_oferta == id_oferta)
+            .all()
+        )
+
+        # 4. Obtener títulos
+        titulos = (
+            self.db.query(Titulo)
+            .join(TituloXOferta, Titulo.id == TituloXOferta.id_titulo)
+            .filter(TituloXOferta.id_oferta == id_oferta)
+            .all()
+        )
+
+        # 5. Obtener experiencia
+        experiencia = (
+            self.db.query(Experiencia)
+            .filter(Experiencia.id_oferta == id_oferta)
+            .all()
+        )
+
+        return {
+            "nombre": oferta.nombre,
+            "departamento": oferta.departamento.nombre,
+            "perfil": oferta.perfil,
+            "habilidades_tecnicas": [h.nombre for h in habilidades_tecnicas],
+            "habilidades_blandas": [h.nombre for h in habilidades_blandas],
+            "titulos": [t.nombre for t in titulos],
+            "experiencia": [e.descripcion for e in experiencia],
+        }
 
     def insertar_oferta(self, nombre: str, departamento: str, perfil: str):
 
