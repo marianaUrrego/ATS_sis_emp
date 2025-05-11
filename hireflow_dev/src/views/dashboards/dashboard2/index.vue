@@ -5,17 +5,11 @@ import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 
-//Base de datos simulada
-import { BasicDatatables } from '@/_mockApis/components/datatable/dataTable';
-
 /*Call Components*/
-import ProfitCard from '@/components/dashboards/dashboard2/ProfitCard.vue';
-import SubscriptionCard from '@/components/dashboards/dashboard2/SubscriptionCard.vue';
-import UsersChart from '@/components/dashboards/dashboard2/UsersChart.vue';
-
 import CardsDashboard from '@/components/dashboards/dashboard2/CardsDashboard.vue';
-
-
+import TableOffer from '@/components/table/TableOffer.vue';
+import RequerimentsCard from '@/components/dashboards/dashboard2/RequerimentsCard.vue';
+import RequerimentsCard2 from '@/components/dashboards/dashboard2/RequirementsCardsText.vue';
 // template breadcrumb
 const page = ref({ title: 'Nombre de la oferta' });
 const breadcrumbs = ref([
@@ -31,78 +25,42 @@ const breadcrumbs = ref([
     }
 ]);
 
-/*Header Data*/
-const search = ref();
-const customsearch = ref();
-const headers: any = ref([
-    { title: 'Aplicante', align: 'start', key: 'name' },
-    { title: 'Fecha de envío', align: 'start', key: 'project' },
-    { title: 'Post', align: 'start', key: 'post' },
-    { title: 'Status', align: 'start', key: 'status' },
-    { title: 'Budget', align: 'end', key: 'budget' },
-])
-
-const expanded = ref();
-const headersExpand: any = ref([
-    { title: 'Aplicante', align: 'start', key: 'name', sortable: false, },
-    { title: 'Fecha de envío', align: 'start', key: 'fecha' },
-    { title: 'Post', align: 'start', key: 'post' },
-    { title: 'Status', align: 'start', key: 'status' },
-    { title: 'Budget', align: 'end', key: 'budget' },
-    { title: '', key: 'data-table-expand' },
-])
-
-
-/*for status color*/
-function getColor(status: string) {
-    if (status == 'Active') return '#13DEB9'
-    else if (status == 'Cancel') return '#FA896B'
-    else if (status == 'Completed') return '#5D87FF'
-    else return '#FFAE1F'
-}
-
-const filtrable = ref('')
-
-function filterOnlyCapsText(value: { toString: () => string; } | null, query: string | null, item: any) {
-    return value != null &&
-        query != null &&
-        typeof value === 'string' &&
-        value.toString().toLocaleUpperCase().indexOf(query) !== -1
-}
 </script>
 <template>
     <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
     <v-row>
-        <v-col cols="12" xl="5" class="py-3 pl-6 pr-4 d-flex align-center">
-            <v-row>
-                <h3 class="display-1 textPrimary font-weight-bold ">Developer</h3>
-            </v-row>
-            <div class="ml-auto">
-                <v-btn color="primary">Crear nueva oferta</v-btn>
-            </div>
-        </v-col>
-
+        <v-col cols="12" xl="5" class="py-3 pl-6 pr-4 d-flex align-center mb-5">
+                <v-row>
+                    <h3 class="display-1 textPrimary font-weight-bold ">Developer</h3>
+                </v-row>
+                <div class="ml-auto">
+                    <v-btn color="primary">
+                        <v-icon class="mr-2">mdi-plus</v-icon>Crear nueva oferta
+                    </v-btn>
+                </div>
+            </v-col>
+        
         <v-row>
-            <!-- Subscription -->
+            <!-- Estudios necesarios -->
             <v-col cols="12" md="4">
-                <SubscriptionCard />
+                <RequerimentsCard class="bg-primary"/>
             </v-col>
-            <!-- Users -->
+            <!-- Perfil -->
             <v-col cols="12" md="4">
-                <UsersChart />
+                <RequerimentsCard2 class="bg-secondary"/>
             </v-col>
-            <!-- Users -->
+            <!-- Habilidades Blandas -->
             <v-col cols="12" md="4">
-                <UsersChart />
+                <RequerimentsCard class="bg-error"/>
             </v-col>
         </v-row>
-        <!-- Profit card -->
+        <!-- Habilidades técnicas -->
         <v-col cols="12" lg="6">
-            <ProfitCard />
+            <RequerimentsCard class="bg-success"/>
         </v-col>
-        <!-- Profit card -->
+        <!-- Experiencia necesaria -->
         <v-col cols="12" lg="6">
-            <ProfitCard />
+            <RequerimentsCard2 class="bg-warning"/>
         </v-col>
 
         <!-- ---------------------------------------------------- -->
@@ -110,16 +68,7 @@ function filterOnlyCapsText(value: { toString: () => string; } | null, query: st
         <!-- ---------------------------------------------------- -->
         <v-col cols="12">
             <UiParentCard title="Aplicantes a la oferta">
-                <v-text-field v-model="search" append-inner-icon="mdi-magnify" label="Search" single-line hide-details
-                    class="mb-5" />
-                <v-data-table items-per-page="5" :headers="headers" :items="BasicDatatables" :search="search"
-                    class="border rounded-md datatabels">
-                    <template v-slot:item.status="{ item }">
-                        <v-chip :color="getColor(item.status)">
-                            {{ item.status }}
-                        </v-chip>
-                    </template>
-                </v-data-table>
+                <TableOffer/>
             </UiParentCard>
         </v-col>
         <DefaultLayout>

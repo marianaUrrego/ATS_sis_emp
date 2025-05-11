@@ -66,7 +66,7 @@ const AboutFeatures: Feature[] = [
         color: 'dark '
     }
 ];
-//CREADA
+//CREADA ITEMS DEL DASHBOARD2 EN LA PARTE DE ABAJO
 const DashboardFeatures: Feature[] = [
     {
         icon: 'material-symbols:check-circle',
