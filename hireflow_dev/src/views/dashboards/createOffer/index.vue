@@ -10,6 +10,8 @@ import UiChildCard from '@/components/shared/UiChildCard.vue';
 import CardsDashboard from '@/components/dashboards/dashboard2/CardsDashboard.vue';
 import TableOffer from '@/components/table/TableOffer.vue';
 
+/*inputs*/
+const nameOffer = ref('input para el nombre de la oferta');
 // template breadcrumb
 const page = ref({ title: '' });
 const breadcrumbs = ref([
@@ -36,14 +38,35 @@ const location = ref();
                     <h3 class="display-1 textPrimary font-weight-bold ">Crear oferta</h3>
                 </v-row>
         </v-col>
-        <v-row>
-            <v-col cols="12" sm="12" lg="6">
-                <div class="text-center mt-4">
-
-                <v-select v-model="location" :items="locations" label="Seleccionar área"></v-select>
-                </div>
+        <v-col cols="12">
+                <v-card  variant="outlined">
+                    <v-card-item>
+                        <div class="mt-5">
+                            <v-row>
+                                <v-col cols="12" md="6">
+                                     <v-label class="mb-2 font-weight-medium">Nombre oferta</v-label>
+                                        <v-text-field
+                                            color="primary"
+                                            variant="outlined"
+                                            type="text"
+                                            v-model="nameOffer"
+                                            hide-details
+                                        />
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col cols="12" md="6">
+                                    <div class="mt-4">
+                                        <v-label class="mb-2 font-weight-medium">Nombre departamento</v-label>
+                                        <v-select v-model="location" :items="locations" label="Seleccionar departamento"></v-select>
+                                    </div>
+                                </v-col>
+                            </v-row>
+                        </div>
+                    </v-card-item>
+                </v-card>
             </v-col>
-        </v-row>
+        
         <UiParentCard title="Descripción resumida de la oferta">
             <v-row>
                 <v-col cols="12" sm="12" lg="6">

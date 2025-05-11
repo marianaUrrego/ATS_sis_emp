@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref , onMounted} from 'vue';
+import { RouterLink } from 'vue-router';
 /* Breadcrumb component */
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 
