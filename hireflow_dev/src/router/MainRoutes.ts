@@ -16,6 +16,11 @@ const MainRoutes = {
             path: '/dashboards/dashboard2',
             component: () => import('@/views/dashboards/dashboard2/index.vue')
         },
+         {
+            name: 'DetalleOferta',
+            path: '/detalleOferta/:id',
+            component: () => import('@/views/dashboards/dashboard2/index.vue')
+        },
         {
             name: 'Dashboard3',
             path: '/dashboards/dashboard3',
