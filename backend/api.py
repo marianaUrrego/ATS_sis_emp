@@ -1,5 +1,8 @@
 from fastapi import FastAPI
 from routers import apiOfertas, apiUsuarios, apiAplicaciones
+from fastapi.middleware.cors import CORSMiddleware 
+# se debe instalar un middleware para poder hacer peticiones desde el sitio web a la API
+
 
 #python -m pip install routers
 # para instalar fastapi :          pip install fastapi 
@@ -13,6 +16,14 @@ app = FastAPI()
 app.include_router(apiUsuarios.router)
 app.include_router(apiOfertas.router)
 app.include_router(apiAplicaciones.router)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # o especifica tu frontend, ej: ["http://localhost:5173"]
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def root():

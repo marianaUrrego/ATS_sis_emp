@@ -65,12 +65,12 @@ create table core.estados (
 
 create table core.habilidades_blandas (
     id uuid default gen_random_uuid() primary key,
-    nombre varchar(30) not null unique
+    nombre varchar(100) not null unique
 );
 
 create table core.habilidades_tecnicas (
     id uuid default gen_random_uuid() primary key,
-    nombre varchar(30) not null unique
+    nombre varchar(100) not null unique
 );
 
 create table core.ofertas (
