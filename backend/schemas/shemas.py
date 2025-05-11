@@ -30,6 +30,7 @@ class AplicacionResponse(BaseModel):
     estado: str
 
 class OfertaMostrar(BaseModel):
+    id: UUID
     nombre: str
     departamento: str
     perfil: str

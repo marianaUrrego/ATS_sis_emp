@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref , onMounted} from 'vue';
 /* Breadcrumb component */
 import BaseBreadcrumb from '@/components/shared/BaseBreadcrumb.vue';
 
@@ -10,6 +10,32 @@ import CardsDashboard from '@/components/dashboards/dashboard2/CardsDashboard.vu
 import TableOffer from '@/components/table/TableOffer.vue';
 import RequerimentsCard from '@/components/dashboards/dashboard2/RequerimentsCard.vue';
 import RequerimentsCard2 from '@/components/dashboards/dashboard2/RequirementsCardsText.vue';
+
+import { useRoute } from 'vue-router';
+const route = useRoute();
+const id = route.params.id;
+
+interface Oferta {
+    nombre: string
+    departamento: string
+    perfil: string
+    habilidades_blandas: string[]
+    habilidades_tecnicas: string[]
+    titulos: string[]
+    experiencia: string[]
+}
+const oferta = ref<Oferta>(
+    {
+        nombre: "",
+        departamento: "",
+        perfil: "",
+        habilidades_blandas: [],
+        habilidades_tecnicas: [],
+        titulos: [],
+        experiencia: []
+    }
+)
+
 // template breadcrumb
 const page = ref({ title: 'Nombre de la oferta' });
 const breadcrumbs = ref([
@@ -24,6 +50,19 @@ const breadcrumbs = ref([
         href: '#'
     }
 ]);
+
+onMounted(async () => {
+  try {
+    // obtener la oferta según el ID
+    const response = await fetch(`http://127.0.0.1:8000/ofertas/${id}`)
+    if (!response.ok) throw new Error('Error al cargar la oferta')
+    const data = await response.json()
+    oferta.value = data
+
+  } catch (error) {
+    console.error('Error al obtener los datos:', error)
+  }
+})
 
 </script>
 <template>

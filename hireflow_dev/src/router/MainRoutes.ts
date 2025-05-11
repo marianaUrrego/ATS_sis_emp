@@ -16,6 +16,11 @@ const MainRoutes = {
             path: '/dashboards/dashboard2',
             component: () => import('@/views/dashboards/dashboard2/index.vue')
         },
+         {
+            name: 'DetalleOferta',
+            path: '/detalleOferta/:id',
+            component: () => import('@/views/dashboards/dashboard2/index.vue')
+        },
         {
             name: 'Dashboard3',
             path: '/dashboards/dashboard3',
@@ -25,6 +30,12 @@ const MainRoutes = {
             name: 'PaginaOfertas',
             path: '/dashboards/paginaOfertas',
             component: () => import('@/views/dashboards/paginaOfertas/index.vue')
+        },
+        
+        {
+            name: 'CreateOffer',
+            path: '/dashboards/createOffer',
+            component: () => import('@/views/dashboards/createOffer/index.vue')
         },
         {
             name: 'Ticket',
