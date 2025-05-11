@@ -27,52 +27,73 @@ const breadcrumbs = ref([
 
 </script>
 <template>
-    <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
     <v-row>
-        <v-col cols="12" xl="5" class="py-3 pl-6 pr-4 d-flex align-center mb-5">
-                <v-row>
-                    <h3 class="display-1 textPrimary font-weight-bold ">Developer</h3>
-                </v-row>
-                <div class="ml-auto">
-                    <v-btn color="primary">
-                        <v-icon class="mr-2">mdi-plus</v-icon>Crear nueva oferta
-                    </v-btn>
-                </div>
-        </v-col>
-        
+        <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
+    </v-row>
+    <v-row>
         <v-row>
+            <v-col cols="12" xl="12" class="py-3 pl-6 pr-4 d-flex align-center mb-5">
+                    <v-row>
+                        <h3 class="display-1 textPrimary font-weight-bold ">Developer</h3>
+                    </v-row>
+                    <div class="ml-auto">
+                        <v-btn color="primary">
+                            <v-icon class="mr-2">mdi-plus</v-icon>Crear nueva oferta
+                        </v-btn>
+                    </div>
+            </v-col>
+        </v-row>
+        <v-row class="d-flex align-stretch">
             <!-- Estudios necesarios -->
             <v-col cols="12" md="4">
-                <RequerimentsCard class="bg-primary"/>
+                <RequerimentsCard class="bg-primary fill-height"
+                title="Estudios necesarios"
+                :data="['estudio1', 'estudio2', 'estudio3']"
+                number="3"/>
             </v-col>
             <!-- Perfil -->
             <v-col cols="12" md="4">
-                <RequerimentsCard2 class="bg-secondary"/>
+                <RequerimentsCard class="bg-secondary fill-height"
+                title="Perfil"
+                :data="['estudio1', 'estudio2', 'estudio3']"
+                number="3"/>
             </v-col>
             <!-- Habilidades Blandas -->
             <v-col cols="12" md="4">
-                <RequerimentsCard class="bg-error"/>
+                <RequerimentsCard class="bg-error fill-height"
+                title="Habilidades Blandas"
+                :data="['estudio1', 'estudio2', 'estudio3']"
+                number="3"/>
+            </v-col>
+            <!-- Habilidades técnicas -->
+            <v-col cols="12" lg="6">
+                <RequerimentsCard class="bg-success fill-height"
+                title="Habilidades técnicas"
+                :data="['estudio1', 'estudio2', 'estudio3']"
+                number="3"/>
+            </v-col>
+            <!-- Experiencia necesaria -->
+            <v-col cols="12" lg="6">
+                <RequerimentsCard class="bg-warning fill-height"
+                title="Experiencia necesaria"
+                :data="['estudio1', 'estudio3']"
+                number="2"/>
             </v-col>
         </v-row>
-        <!-- Habilidades técnicas -->
-        <v-col cols="12" lg="6">
-            <RequerimentsCard class="bg-success"/>
-        </v-col>
-        <!-- Experiencia necesaria -->
-        <v-col cols="12" lg="6">
-            <RequerimentsCard2 class="bg-warning"/>
-        </v-col>
-
         <!-- ---------------------------------------------------- -->
         <!-- Table -->
         <!-- ---------------------------------------------------- -->
-        <v-col cols="12">
-            <UiParentCard title="Aplicantes a la oferta">
-                <TableOffer/>
-            </UiParentCard>
-        </v-col>
-        <DefaultLayout>
-            <CardsDashboard />
-        </DefaultLayout>
+        <v-row>
+            <v-col cols="12">
+                <UiParentCard title="Aplicantes a la oferta">
+                    <TableOffer/>
+                </UiParentCard>
+            </v-col>
+        </v-row>
+        <v-row>
+            <DefaultLayout>
+                <CardsDashboard />
+            </DefaultLayout>
+        </v-row>
     </v-row>
 </template>
