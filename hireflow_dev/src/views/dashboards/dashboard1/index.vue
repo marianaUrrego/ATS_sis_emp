@@ -1,6 +1,6 @@
 <script setup lang="ts">
 /*Call Components*/
-import RequerimentsCard from '@/components/dashboards/dashboard2/RequerimentsCard.vue';
+
 </script>
 <template>
     <!--cuando pongamos info lo podemos hacer modular, como los componentes son tan chiquitos lo hice así por ahora-->
