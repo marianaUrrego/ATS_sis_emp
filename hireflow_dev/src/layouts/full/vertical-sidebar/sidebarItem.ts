@@ -38,6 +38,11 @@ const sidebarItem: menu[] = [
         icon: 'user-id-line-duotone',
         to: '/dashboards/dashboard3'
     },
+    {
+        title: 'Crear oferta',
+        icon: 'user-id-line-duotone',
+        to: '/dashboards/createOffer'
+    },
     { header: 'APPS' },
     {
         title: 'User Profile',
