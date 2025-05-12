@@ -94,7 +94,8 @@ def obtener_aplicantes_por_id_oferta(id_oferta: str, db: Session = Depends(get_d
             "id_oferta": aplicacion.id_oferta,
             "oferta": aplicacion.oferta.nombre,
             "id_estado": aplicacion.id_estado,
-            "estado": aplicacion.estado.nombre
+            "estado": aplicacion.estado.nombre,
+            "cv_url": f"/api/cv/{aplicacion.aplicante.id}"  # URL para descargar CV
         }
         for aplicacion in aplicaciones
     ]
