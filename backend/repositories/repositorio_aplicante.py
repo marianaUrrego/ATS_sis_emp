@@ -9,7 +9,6 @@ class AplicanteRepository:
     def get_all_aplicants(self):
         return self.db.query(Aplicacion).options(joinedload(Aplicacion.oferta), joinedload(Aplicacion.estado),joinedload(Aplicacion.aplicante)).all()
 
-
     def Insertar_aplicación(self, aplicante: Aplicante, aplicacion: Aplicacion):
         query = text("CALL core.p_insertar_aplicacion(:param_nombre, :param_correo, :param_cv, :param_id_oferta, :param_id_estado)")
         self.db.execute(query, {

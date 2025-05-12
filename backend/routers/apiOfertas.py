@@ -4,6 +4,7 @@ from database import SessionLocal
 from repositories.repositorio_ofertas import DepartamentoRepository, OfertasRepository
 from schemas.shemas import OfertaCreate, Departamentos, OfertaMostrar
 from typing import List
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/ofertas", tags=["Ofertas"])
 
@@ -70,5 +71,32 @@ def get_offer_by_id(idOferta, db= Depends(get_db)):
     oferta_repo = OfertasRepository(db)
     oferta = oferta_repo.get_oferta_completa(idOferta)
     return oferta
+
+@router.get("/id/{id_oferta}/aplicantes")
+def obtener_aplicantes_por_id_oferta(id_oferta: str, db: Session = Depends(get_db)):
+    """
+    Endpoint para obtener aplicantes por ID de oferta.
     
+    Args:
+        id_oferta: El ID de la oferta (UUID en formato string)
+        db: Sesión de base de datos
+    
+    Returns:
+        Lista de aplicantes para la oferta especificada
+    """
+    repo = OfertasRepository(db)
+    aplicaciones = repo.get_aplicaciones_por_id_oferta(id_oferta)
+    
+    return [
+        {
+            "nombre_aplicante": aplicacion.aplicante.nombre,
+            "correo": aplicacion.aplicante.correo,
+            "id_oferta": aplicacion.id_oferta,
+            "oferta": aplicacion.oferta.nombre,
+            "id_estado": aplicacion.id_estado,
+            "estado": aplicacion.estado.nombre
+        }
+        for aplicacion in aplicaciones
+    ]
+
 

@@ -1,4 +1,5 @@
 from models.ofertas import Oferta , Departamento
+from models.aplicaciones import Aplicacion
 from sqlalchemy import text, Uuid, func
 from sqlalchemy.orm import joinedload
 from models.requisitosOferta import HabilidadTecnica, HabilidadBlanda, Titulo, Experiencia
@@ -6,7 +7,6 @@ from models.requisitosOferta import HabilidadTecnicaXOferta, HabilidadBlandaXOfe
 
 
 class OfertasRepository:
-    
 
     def __init__(self, db_session):
         self.db = db_session
@@ -90,6 +90,37 @@ class OfertasRepository:
         })
         self.db.commit()
         return True
+    
+    def get_aplicaciones_por_id_oferta(self, id_oferta: str):
+        """
+        Obtiene todas las aplicaciones para una oferta específica usando el ID.
+        
+        Args:
+            id_oferta: El ID de la oferta en formato string (se convertirá a UUID)
+        
+        Returns:
+            Lista de aplicaciones para la oferta especificada
+        """
+        import uuid
+        
+        try:
+            # Convertir el string a UUID
+            oferta_uuid = uuid.UUID(id_oferta)
+        except ValueError:
+            # Retornar lista vacía si el ID no es un UUID válido
+            return []
+            
+        return (
+            self.db.query(Aplicacion)
+            .join(Oferta, Aplicacion.id_oferta == Oferta.id)
+            .filter(Oferta.id == oferta_uuid)  # Filtrar por ID en lugar de nombre
+            .options(
+                joinedload(Aplicacion.aplicante),
+                joinedload(Aplicacion.estado),
+                joinedload(Aplicacion.oferta)
+            )
+            .all()
+        )
 
 class DepartamentoRepository:
     def __init__(self, db_session):
