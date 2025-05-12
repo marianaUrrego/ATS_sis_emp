@@ -139,6 +139,7 @@ onMounted(async () => {
         <v-row>
             <v-col cols="12" class="py-3 pl-6 pr-4 d-flex align-center mb-5">
                 <h3 class="display-1 textPrimary font-weight-bold w-100">{{ oferta.nombre }}</h3>
+                <v-chip color="success" variant="flat" >{{ oferta?.departamento }}</v-chip>
             </v-col>
         </v-row>
         
