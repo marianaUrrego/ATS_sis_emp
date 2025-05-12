@@ -71,7 +71,7 @@ const isLoadingAplicantes = ref(false);
 const errorAplicantes = ref<string | null>(null);
 
 // template breadcrumb
-const page = ref({ title: ofertaSimulada.nombre });
+const page = ref({ title: "" });
 const breadcrumbs = ref([
     {
         text: 'Home',
@@ -89,13 +89,10 @@ const breadcrumbs = ref([
 async function cargarOferta() {
   try {
     // En un entorno real, aquí harías la llamada fetch
-    // const response = await fetch(`http://127.0.0.1:8000/ofertas/${id}`);
-    // if (!response.ok) throw new Error('Error al cargar la oferta');
-    // const data = await response.json();
-    // oferta.value = data;
-    
-    // Simulamos con datos estáticos
-    oferta.value = ofertaSimulada;
+    const response = await fetch(`http://127.0.0.1:8000/ofertas/${id}`);
+    if (!response.ok) throw new Error('Error al cargar la oferta');
+    const data = await response.json();
+    oferta.value = data;
     
     // Actualizar el título con el nombre de la oferta
     page.value.title = oferta.value.nombre;

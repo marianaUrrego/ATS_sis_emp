@@ -48,44 +48,85 @@ def upload_file_to_blob(file_path, blob_name) -> str:
 
 
 # función para insertar una oferta
+import os
+import shutil
+import uuid
+from fastapi import HTTPException, File, UploadFile, Depends, Form
+from sqlalchemy.orm import Session
+
 @router.post("/")
-def insertar_aplicación(db=Depends(get_db),
+def insertar_aplicación(
+    db: Session = Depends(get_db),
     nombre: str = Form(...),
     correo: str = Form(...),
     id_oferta: str = Form(...),
-    file: UploadFile = File(...)):
-
-    id_oferta_uuid = UUID(id_oferta)
-
-    file_location = f"temp/{file.filename}"  # se guarda en una carpeta temporal
-    
-    aplicacion_repo = AplicanteRepository(db)
-    aplicante = Aplicante()
-    aplicante.nombre = nombre
-    aplicante.correo = correo
-    with open(file_location, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+    file: UploadFile = File(...)
+):
+    try:
+        # Generar un nombre de archivo único
+        unique_filename = f"{uuid.uuid4()}_{file.filename}"
         
-    # Extraer texto de la aplicación del PDF
-    texto_cv = extraer_texto_pdf(file_location)
+        # Crear directorio temporal
+        os.makedirs("temp", exist_ok=True)
+        
+        # Ruta completa del archivo
+        file_location = os.path.join("temp", unique_filename)
+        
+        try:
+            # Guardar el archivo
+            with open(file_location, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+            
+            # Convertir id_oferta a UUID
+            id_oferta_uuid = uuid.UUID(id_oferta)
+            
+            # Extraer texto del PDF
+            texto_cv = extraer_texto_pdf(file_location)
+            
+            # Obtener oferta de la base de datos
+            oferta = db.query(Oferta).filter(Oferta.id == id_oferta_uuid).first()
+            if not oferta:
+                raise HTTPException(status_code=404, detail="Oferta no encontrada")
+            
+            # Obtener texto de la oferta
+            texto_oferta = oferta.perfil
+            
+            # Subir archivo a blob storage
+            cv_url = upload_file_to_blob(file_location, unique_filename)
+            
+            # Preparar repositorio
+            aplicacion_repo = AplicanteRepository(db)
+            
+            # Crear aplicación con el estado determinado
+            aplicacion = Aplicacion()
+            aplicacion.id_oferta = id_oferta_uuid
+            aplicacion.id_estado = coordinar_peticion(texto_cv, texto_oferta)
+            
+            # Crear aplicante
+            aplicante = Aplicante()
+            aplicante.nombre = nombre
+            aplicante.correo = correo
+            aplicante.cv = cv_url
+            
+            # Insertar aplicación
+            msg = aplicacion_repo.Insertar_aplicación(aplicante, aplicacion)
+            
+            return msg
+        
+        except Exception as e:
+            # Manejar errores de procesamiento
+            raise HTTPException(status_code=500, detail=f"Error processing application: {str(e)}")
+        
+        finally:
+            # Limpiar archivo temporal
+            try:
+                os.remove(file_location)
+            except Exception as remove_error:
+                print(f"Could not remove temporary file: {remove_error}")
     
-    # Obtener texto de la oferta desde la base de datos
-    oferta = db.query(Oferta).filter(Oferta.id == id_oferta_uuid).first()
-    if not oferta:
-        raise HTTPException(status_code=404, detail="Oferta no encontrada")
-    
-    # Obtener texto de la oferta
-    texto_oferta = oferta.perfil
-
-    aplicante.cv = upload_file_to_blob(file_location,file.filename)
-    aplication = Aplicacion()
-    aplication.id_estado = coordinar_peticion(texto_cv, texto_oferta)
-    aplication.id_oferta = id_oferta_uuid
-
-    os.remove(file_location)  # se elimina del almacenamiento local
-    msg = aplicacion_repo.Insertar_aplicación(aplicante, aplication)
-    return msg
-
+    except Exception as e:
+        # Manejar errores de carga de archivo
+        raise HTTPException(status_code=400, detail=f"File upload error: {str(e)}")
 
 @router.get("/", response_model=List[AplicacionResponse])
 def get_all_ofertas(db=Depends(get_db)):
