@@ -1,5 +1,4 @@
 import type { LeaderType, TemplateType, ThemeFeatures, PackageType, FooterType, Feature } from '@/types/components/front-pages/index';
-import type { faqPageType } from '@/types/components/pages/faqData';
 
 import review1 from '@/assets/images/profile/user-1.jpg';
 import review2 from '@/assets/images/profile/user-2.jpg';

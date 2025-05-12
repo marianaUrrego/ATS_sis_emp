@@ -26,7 +26,7 @@ const authStore = useAuthStore();
                         <img src="@/assets/images/profile/user-1.jpg" width="55" />
                     </v-avatar>
                     <div class="ml-3">
-                        <h6 class="text-subtitle-1 mb-n1">David McMichael <span class="text-success text-caption">Pro</span></h6>
+                        <h6 class="text-subtitle-1 mb-n1">David McMichael</h6>
                         <span class="text-subtitle-1 textSecondary">david@wrappixel.com</span>
                     </div>
                 </div>

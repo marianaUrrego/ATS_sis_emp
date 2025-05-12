@@ -118,22 +118,21 @@ const verCV = async (correo: string) => {
                 Añadir CVs<v-icon class="mr-2">mdi-plus</v-icon>
             </v-btn>
             
-        <v-dialog v-model="dialog" max-width="500">
-            <v-card>
-                <v-card-text>
-                    <h4 class="text-h6 mb-4">Cargar archivos</h4>
-                    <UiChildCard title="Multiple">
-                            <FileMultiple />
-                    </UiChildCard>
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn color="primary" variant="tonal" @click="addNote">Guardar</v-btn>
-                    <v-btn color="error" variant="tonal" @click="dialog = false">Cerrar pestaña</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-        </v-col>
-                        
+            <v-dialog v-model="dialog" max-width="500">
+                <v-card>
+                    <v-card-text>
+                        <h4 class="text-h6 mb-4">Cargar archivos</h4>
+                        <UiChildCard title="Multiple">
+                                <FileMultiple />
+                        </UiChildCard>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="primary" variant="tonal" @click="addNote">Guardar</v-btn>
+                        <v-btn color="error" variant="tonal" @click="dialog = false">Cerrar pestaña</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-col>             
     </v-row>
     <v-data-table 
         items-per-page="5" 

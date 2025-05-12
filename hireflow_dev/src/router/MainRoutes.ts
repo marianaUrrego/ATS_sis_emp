@@ -38,21 +38,6 @@ const MainRoutes = {
             component: () => import('@/views/dashboards/createOffer/index.vue')
         },
         {
-            name: 'Ticket',
-            path: '/apps/tickets',
-            component: () => import('@/views/apps/tickets/index.vue')
-        },
-        {
-            name: 'UserProfile',
-            path: '/apps/user/profile',
-            component: () => import('@/views/apps/user-profile/Profile.vue')
-        },
-        {
-            name: 'Account Setting',
-            path: '/pages/account-settings',
-            component: () => import('@/views/pages/account-settings/AccountSettings.vue')
-        },
-        {
             name: 'Banners',
             path: '/widgets/banners',
             component: () => import('@/views/widgets/banners/banners.vue')
@@ -287,11 +272,6 @@ const MainRoutes = {
             name: 'Typography',
             path: '/ui-components/typography',
             component: () => import('@/views/style-animation/Typography.vue')
-        },
-        {
-            name: 'Account Setting',
-            path: '/pages/account-settings',
-            component: () => import('@/views/pages/account-settings/AccountSettings.vue')
         },
         {
             name: "Tabler",

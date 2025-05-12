@@ -43,23 +43,6 @@ const sidebarItem: menu[] = [
         icon: 'user-id-line-duotone',
         to: '/dashboards/createOffer'
     },
-    { header: 'APPS' },
-    {
-        title: 'User Profile',
-        icon: 'shield-user-line-duotone',
-        to: '/',
-        children: [
-            {
-                title: 'Profile',
-                to: '/apps/user/profile'
-            },
-        ]
-    },
-    {
-        title: 'Tickets',
-        icon: 'ticker-star-outline',
-        to: '/apps/tickets'
-    },
     { header: 'PAGES' },
     {
         title: 'Account Setting',
