@@ -55,31 +55,10 @@ const notifications:notificationType[] = [
 // 
 const profileDD: profileType[] = [
     {
-        title: 'My Profile',
-        href: '/apps/user/profile',
-        badge:false
-    },
-    {
-        title: 'My Subscription',
-        href: '/pages/pricing',
-        badge:false
-    },
-    {
-        title: 'My Notes',
-        href: '/apps/notes',
-        badge:true
-    },
-    {
-        title: 'Account Settings',
-        href: '/pages/account-settings',
-        badge:false
-    },
-    {
         title: 'Sign Out',
         href: '/auth/login2',
         badge:false
     },
-   
 ];
 
 // 

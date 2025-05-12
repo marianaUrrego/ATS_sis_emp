@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import axios from 'axios'
 import { ref, computed } from 'vue';
 import type { PropType } from 'vue';
 import { colorVariation } from '@/_mockApis/apps/notes/index';
@@ -8,13 +9,6 @@ const dialog = ref(false);
 const title = ref('');
 
 const color = ref('primary');
-function addNote() {
-    return (
-        getNote.value.push({ id: getId + 1, title: title.value, color: color.value, datef: new Date() }),
-        (dialog.value = false),
-        (title.value = '')
-    );
-}
 // Definición de la interfaz para los aplicantes
 interface Aplicante {
     nombre_aplicante: string
@@ -62,7 +56,9 @@ const headers = ref<Header[]>([
     { title: 'Correo', align: 'start', key: 'correo', sortable: true },
     { title: 'Estado', align: 'start', key: 'estado', sortable: true },
     { title: 'Oferta', align: 'end', key: 'oferta', sortable: true },
+    { title: 'Acciones', align: 'center', key: 'acciones' },
 ]);
+
 
 // Función para determinar el color basado en el estado
 function getColor(estado: string) {
@@ -85,6 +81,26 @@ function getColor(estado: string) {
             return '#FFAE1F';
     }
 }
+
+const verCV = async (correo: string) => {
+    try {
+        const response = await axios.get('http://localhost:8000/aplicaciones/cv', {
+            params: { correo },
+        });
+
+        const urls = response.data;
+
+        if (urls.length > 0) {
+            window.open(urls[0], '_blank');
+        } else {
+            alert('No se encontró el CV para este correo.');
+        }
+    } catch (error) {
+        console.error("No se pudo obtener el CV", error);
+        alert("No se pudo obtener el CV del aplicante.");
+    }
+};
+
 </script>
 <template>
     <v-row>
@@ -102,22 +118,21 @@ function getColor(estado: string) {
                 Añadir CVs<v-icon class="mr-2">mdi-plus</v-icon>
             </v-btn>
             
-        <v-dialog v-model="dialog" max-width="500">
-            <v-card>
-                <v-card-text>
-                    <h4 class="text-h6 mb-4">Cargar archivos</h4>
-                    <UiChildCard title="Multiple">
-                            <FileMultiple />
-                    </UiChildCard>
-                </v-card-text>
-                <v-card-actions>
-                    <v-btn color="primary" variant="tonal" @click="addNote">Guardar</v-btn>
-                    <v-btn color="error" variant="tonal" @click="dialog = false">Cerrar pestaña</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-        </v-col>
-                        
+            <v-dialog v-model="dialog" max-width="500">
+                <v-card>
+                    <v-card-text>
+                        <h4 class="text-h6 mb-4">Cargar archivos</h4>
+                        <UiChildCard title="Multiple">
+                                <FileMultiple />
+                        </UiChildCard>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-btn color="primary" variant="tonal" @click="addNote">Guardar</v-btn>
+                        <v-btn color="error" variant="tonal" @click="dialog = false">Cerrar pestaña</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-col>             
     </v-row>
     <v-data-table 
         items-per-page="5" 
@@ -132,13 +147,18 @@ function getColor(estado: string) {
         }"
         class="border rounded-md datatabels"
     >
-        <template v-slot:item.estado="{ item }">
+        <template #item.estado="{ item }">
             <v-chip :color="getColor(item.estado)">
                 {{ item.estado }}
             </v-chip>
         </template>
-        
-        <!-- Si no hay items, mostrar mensaje -->
+
+        <template #item.acciones="{ item }">
+            <v-btn color="primary" size="small" @click="verCV(item.correo)">
+                Ver CV
+            </v-btn>
+        </template>
+
         <template v-slot:no-data>
             <div class="text-center pa-5">
                 No hay aplicantes disponibles

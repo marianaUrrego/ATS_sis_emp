@@ -8,9 +8,7 @@ import {
     LayoutDistributeHorizontalIcon,
     LayoutDistributeVerticalIcon,
     LayoutNavbarIcon,
-    LayoutSidebarLeftCollapseIcon,
-TextDirectionLtrIcon,
-TextDirectionRtlIcon
+    LayoutSidebarLeftCollapseIcon
 } from 'vue-tabler-icons';
 
 const theme = useTheme();
@@ -60,7 +58,7 @@ const DarkthemeColors = ref([
 <!------------------------------------->
 <template>
         <div class="pa-6">
-            <h5 class="text-h5">Settings</h5>
+            <h5 class="text-h5">Configuración</h5>
         </div>
         <v-divider></v-divider>
         <perfect-scrollbar style="height: calc(100vh - 90px)">
@@ -74,52 +72,6 @@ const DarkthemeColors = ref([
                         <LayoutNavbarIcon stroke-width="1.5" size="21" class="mr-2 icon" /> Horizontal
                     </v-btn>
                 </v-btn-toggle>
-
-                <!------Template Direction------>
-                <h6 class="text-h6 mt-8 mb-2">Template Direction</h6>
-                <v-btn-toggle v-model="customizer.setRTLLayout" color="primary" class="my-2 btn-group-custom gap-3" rounded="0" group>
-                    <v-btn :value="false" variant="text"  elevation="9" class="rounded-md" >
-                        <TextDirectionLtrIcon stroke-width="1.5" size="21"  class="mr-2 icon" /> LTR
-                    </v-btn>
-                    <v-btn :value="true" variant="text" elevation="9" class="rounded-md">
-                        <TextDirectionRtlIcon stroke-width="1.5" size="21" class="mr-2 icon" /> RTL
-                    </v-btn>
-                </v-btn-toggle>
-
-                <h6 class="text-h6 mt-8 mb-5">Template Color</h6>
-                <v-item-group mandatory v-model="customizer.actTheme" class="ml-n2 v-row">
-                    <v-col cols="4" v-for="theme in themeColors" :key="theme.name" class="pa-2">
-                        <v-item v-slot="{ isSelected, toggle }" :value="theme.name">
-                            <v-sheet
-                                rounded="md"
-                                class="border cursor-pointer d-block text-center px-5 py-4 hover-btns"
-                                elevation="9"
-                                @click="toggle"
-                            >
-                                <v-avatar :class="theme.bg" size="25" variant="text">
-                                    <CheckIcon color="white" size="18" v-if="isSelected" />
-                                </v-avatar>
-                            </v-sheet>
-                        </v-item>
-                    </v-col>
-                </v-item-group>
-                <h6 class="text-h6 mt-11 mb-5">Template Dark Color</h6>
-                <v-item-group mandatory v-model="customizer.actTheme" class="ml-n2 v-row">
-                    <v-col cols="4" v-for="theme in DarkthemeColors" :key="theme.name" class="pa-2">
-                        <v-item v-slot="{ isSelected, toggle }" :value="theme.name">
-                            <v-sheet
-                                rounded="md"
-                                class="border cursor-pointer d-block text-center px-5 py-4 hover-btns"
-                                elevation="9"
-                                @click="toggle"
-                            >
-                                <v-avatar :class="theme.bg" size="25">
-                                    <CheckIcon color="white" size="18" v-if="isSelected" />
-                                </v-avatar>
-                            </v-sheet>
-                        </v-item>
-                    </v-col>
-                </v-item-group>
                 <h6 class="text-h6 mt-11 mb-2">Container Option</h6>
                 <v-btn-toggle v-model="customizer.boxed" color="primary" class="my-2 btn-group-custom gap-3" rounded="0" group>
                     <v-btn :value="true" variant="text" elevation="9" class="rounded-md">

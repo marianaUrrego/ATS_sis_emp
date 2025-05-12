@@ -6,21 +6,6 @@ const AuthRoutes = {
     },
     children: [
         {
-            name: 'Landing Page',
-            path: '/',
-            component: () => import('@/views/pages/landingpage/index.vue')
-        },
-        {
-            name: 'FrontPage',
-            path: '/front-page/homepage',
-            component: () => import('@/views/pages/front-pages/Landingpage.vue')
-        },
-        {
-            name: 'Pricing1',
-            path: '/front-page/pricing',
-            component: () => import('@/views/pages/front-pages/PackagePricing.vue')
-        },
-        {
             name: 'Side Login',
             path: '/auth/login',
             component: () => import('@/views/authentication/SideLogin.vue')

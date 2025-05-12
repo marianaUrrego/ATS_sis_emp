@@ -13,10 +13,10 @@ const show1 = ref(false);
 const password = ref('admin123');
 const username = ref('info@wrappixel.com');
 const passwordRules = ref([
-    (v: string) => !!v || 'Password is required',
-    (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
+    (v: string) => !!v || 'Contraseña requerida',
+    (v: string) => (v && v.length <= 10) || 'La contraseña debe tener menos de 10 caracteres'
 ]);
-const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
+const emailRules = ref([(v: string) => !!v || 'El E-mail es requerido', (v: string) => /.+@.+\..+/.test(v) || 'El E-mail debe ser válido']);
 
 function validate(values: any, { setErrors }: any) {
     const authStore = useAuthStore();
@@ -25,31 +25,12 @@ function validate(values: any, { setErrors }: any) {
 </script>
 
 <template>
-    <v-row class="d-flex mb-3">
-        <v-col cols="6" sm="6" class="pr-2">
-            <v-btn variant="outlined" size="large" class="border text-subtitle-1 font-weight-semibold hover-link-primary" block>
-                <img :src="facebook" width="20" class="mr-1" alt="facebook" />
-                <span class="d-md-flex d-none mr-1">Sign in with</span> Facebook
-            </v-btn>
-        </v-col>
-        <v-col cols="6" sm="6" class="pl-2">
-            <v-btn variant="outlined" size="large" class="border text-subtitle-1 font-weight-semibold hover-link-primary" block>
-                <img :src="google" height="16" class="mr-2" alt="google" />
-                <span class="d-md-flex d-none mr-1">Sign in with</span> Google
-            </v-btn>
-        </v-col>
-    </v-row>
-    <div class="d-flex align-center text-center mb-6">
-        <div class="text-h6 w-100 px-5 font-weight-regular auth-divider position-relative">
-            <span class="bg-surface px-5 py-3 position-relative textSecondary">Or sign in with email</span>
-        </div>
-    </div>
     <Form @submit="validate" v-slot="{ errors, isSubmitting }" class="mt-5">
-        <v-label class="font-weight-semibold pb-2 ">Username</v-label>
+        <v-label class="font-weight-semibold pb-2 ">Nombre de usuario</v-label>
         <VTextField v-model="username" :rules="emailRules" class="mb-8" required hide-details="auto"></VTextField>
         <div class="d-flex justify-space-between align-center pb-2">
-            <v-label class="font-weight-semibold ">Password</v-label>
-            <RouterLink to="/auth/forgot-password2" class="text-primary text-decoration-none font-weight-medium">Forgot Password ?</RouterLink>
+            <v-label class="font-weight-semibold ">Contraseña</v-label>
+            <RouterLink to="/auth/forgot-password2" class="text-primary text-decoration-none font-weight-medium">¿Olvidaste la contraseña ?</RouterLink>
         </div>
 
         <VTextField v-model="password" :rules="passwordRules" required hide-details="auto" type="password" class="pwdInput"></VTextField>
@@ -57,15 +38,15 @@ function validate(values: any, { setErrors }: any) {
             <v-checkbox
                 class="pe-2"
                 v-model="checkbox"
-                :rules="[(v: any) => !!v || 'You must agree to continue!']"
+                :rules="[(v: any) => !!v || 'Debes aceptar para continuar!']"
                 required
                 hide-details
                 color="primary"
             >
-                <template v-slot:label class="font-weight-medium">Keep me logged in</template>
+                <template v-slot:label class="font-weight-medium">Mantener sesión iniciada</template>
             </v-checkbox>
         </div>
-        <v-btn size="large" :loading="isSubmitting" color="darkgray" :disabled="valid" block type="submit" flat>Sign In</v-btn>
+        <v-btn size="large" :loading="isSubmitting" color="darkgray" :disabled="valid" block type="submit" flat>Iniciar sesión</v-btn>
         <div v-if="errors.apiError" class="mt-2">
             <v-alert color="error">{{ errors.apiError }}</v-alert>
         </div>
