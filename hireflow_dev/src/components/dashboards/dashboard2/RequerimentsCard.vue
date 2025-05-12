@@ -25,8 +25,9 @@ defineProps<{
                     </div>
                 </div>
                 <v-avatar size="48" class="rounded-md bg-surface">
-                    <h3 class="font-weight-medium textPrimary" height="22">3</h3>
+                    <h3 class="font-weight-medium textPrimary" height="22">{{ items.length }}</h3>
                 </v-avatar>
+
             </div>
         </v-card-item>
     </v-card>

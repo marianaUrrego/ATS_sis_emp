@@ -135,11 +135,19 @@ onMounted(async () => {
         <BaseBreadcrumb :title="page.title" :breadcrumbs="breadcrumbs"></BaseBreadcrumb>
     </v-row>
     <v-row>
-        <v-row>
-            <v-col cols="12" xl="5" class="py-3 pl-6 pr-4 d-flex align-center mb-5">
-                    <v-row>
-                        <h3 class="display-1 textPrimary font-weight-bold ">{{ oferta?.nombre }}</h3>
-                    </v-row>
+        <v-row class="mb-6">
+            <v-col cols="12" class="d-flex align-center justify-space-between">
+                <div class="d-flex align-center">
+                    <v-col>
+                        <h3 class=" display-1 textPrimary font-weight-bold">{{ oferta?.nombre }}</h3>
+                    </v-col>
+                    <v-col>
+                        <v-chip color="success" variant="flat" >{{ oferta?.departamento }}</v-chip>
+                    </v-col>
+                </div>
+                <v-btn color="primary" prepend-icon="mdi-plus" class="text-capitalize">
+                Crear nueva oferta
+                </v-btn>
             </v-col>
         </v-row>
         
