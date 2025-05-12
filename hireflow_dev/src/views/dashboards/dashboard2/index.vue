@@ -102,6 +102,11 @@ function abrirCV(cvUrl: string) {
   window.open(cvUrl, '_blank');
 }
 
+// Manejar evento de recarga de aplicantes después de añadir uno nuevo
+const handleRecargarAplicantes = () => {
+  cargarAplicantes();
+};
+
 onMounted(async () => {
   // Cargar la oferta y los aplicantes al montar el componente
   await cargarOferta();
@@ -179,6 +184,7 @@ onMounted(async () => {
                         <TableOffer 
                             :items="aplicantes" 
                             @ver-cv="abrirCV"
+                            @recargar-aplicantes="handleRecargarAplicantes"
                         />
                     </div>
                 </UiParentCard>
