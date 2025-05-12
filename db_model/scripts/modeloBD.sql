@@ -50,7 +50,7 @@ create table core.aplicantes (
     id uuid default gen_random_uuid() primary key,
     nombre varchar(30) not null ,
 	correo varchar(100) not null unique,
-    cv varchar(100) not null
+    cv varchar(500) not null
 );
 
 create table core.titulos (
@@ -293,7 +293,7 @@ end;
 $$;
 
 
-CREATE OR REPLACE PROCEDURE core.p_insertar_aplicacion(IN param_nombre text, IN param_correo text, IN param_cv text, IN param_id_oferta uuid, IN param_id_estado uuid)
+CREATE OR REPLACE PROCEDURE core.p_insertar_aplicacion(IN param_nombre text, IN param_correo text, IN param_cv text, IN param_id_oferta uuid, IN param_id_estado int)
  LANGUAGE plpgsql
 AS $procedure$
 declare

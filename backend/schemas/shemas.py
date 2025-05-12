@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from uuid import UUID 
 from typing import List
 from datetime import date
+from sqlalchemy import Integer
 # python -m pip install uuid
 
 class UserCreate(BaseModel):
@@ -26,7 +27,7 @@ class AplicacionResponse(BaseModel):
     correo: str
     id_oferta: UUID
     oferta: str
-    id_estado: UUID
+    id_estado: int
     estado: str
 
 class OfertaMostrar(BaseModel):

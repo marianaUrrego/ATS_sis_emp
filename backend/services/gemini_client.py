@@ -7,7 +7,7 @@ def calificar_similitud_llm(cv_texto: str, vacante_texto: str) -> float:
     Devuelve un valor decimal entre 0 y 1 representando el grado de ajuste.
     """
     model = genai.GenerativeModel('gemini-2.0-flash')
-    genai.configure(api_key='')
+    genai.configure(api_key='AIzaSyAeCoRh8rZDDRIvL93dDG_8mzXOPFZKd8k')
 
     prompt = f"""
 Eres un experto seleccionador de personal. Tu tarea es analizar cuidadosamente si una hoja de vida se ajusta al perfil de una vacante.
