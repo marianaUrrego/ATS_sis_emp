@@ -4,7 +4,6 @@ import { useCustomizerStore } from '../../../stores/customizer';
 import { useEcomStore } from '@/stores/apps/eCommerce';
 import ProfileDD from './ProfileDD.vue';
 import RightMobileSidebar from './RightMobileSidebar.vue';
-import Navigations from './Navigations.vue';
 import { Icon } from '@iconify/vue';
 import Logo from '../logo/Logo.vue';
 import ThemeToggler from './ThemeToggler.vue';
@@ -30,13 +29,6 @@ watch(priority, (newPriority) => {
         <v-btn class="hidden-lg-and-up custom-hover-primary" size="small" variant="text" color="primary" icon  @click.stop="customizer.SET_SIDEBAR_DRAWER" >
             <Icon icon="solar:hamburger-menu-line-duotone" height="22"   />
         </v-btn>
-        
-        <!-- ---------------------------------------------- -->
-        <!-- Mega menu -->
-        <!-- ---------------------------------------------- -->
-        <div class="hidden-sm-and-down">
-            <Navigations />
-        </div>
 
         <v-spacer class="hidden-sm-and-down" />
 

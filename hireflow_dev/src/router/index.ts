@@ -6,13 +6,18 @@ import { useAuthStore } from '@/stores/auth';
 export const router = createRouter({
     history: createWebHistory(import.meta.env.BASE_URL),
     routes: [
-        {
-            path: '/:pathMatch(.*)*',
-            component: () => import('@/views/authentication/Error.vue')
-        },
-        MainRoutes,
-        AuthRoutes
-    ]
+    {
+        path: '/',
+        redirect: '/auth/login2'
+    },
+    MainRoutes,
+    AuthRoutes,
+    {
+        path: '/:pathMatch(.*)*',
+        component: () => import('@/views/authentication/Error.vue')
+    }
+]
+
 });
 
 router.beforeEach(async (to, from, next) => {
