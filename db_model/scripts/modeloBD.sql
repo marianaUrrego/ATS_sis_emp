@@ -10,29 +10,6 @@ create database hireflowdb;
 
 create schema core;
 
-create user user_db with encrypted password 'c0ntr4s3n4';
-
-grant connect on database hireflowdb to user_db;
-grant temporary on database hireflowdb to user_db;
-grant usage on schema core to user_db;
-grant create on schema core to user_db;
-grant select, references, insert, update, delete, trigger on all tables in schema core to user_db;
-grant usage, select on all sequences in schema core to user_db;
-grant execute on all functions in schema core to user_db;
-grant execute on all procedures in schema core to user_db;
-grant usage on schema information_schema to user_db;
-grant references on all tables in schema core to user_db;
-
-create user api_connection with encrypted password '4P1R3ST';
-
-grant connect on database hireflowdb to api_connection;
-grant usage on schema core to api_connection;
-grant select, insert, update, delete on all tables in schema core to api_connection;
-grant execute on all procedures in schema core to api_connection;
-
-create extension if not exists "uuid-ossp";
- -- conectandose desde el usuario user_db
- 
 create extension if not exists "uuid-ossp";
  -- conectandose desde el usuario user_db
  
@@ -85,7 +62,7 @@ create table core.aplicaciones (
 	id_aplicante uuid not null constraint aplicantes_fk references core.aplicantes(id),
 	id_oferta uuid not null constraint ofertas_fk references core.ofertas(id),
 	fecha_aplicacion date not null,
-	id_estado uuid not null constraint estados_fk references core.estados(id),
+	id_estado integer not null constraint estados_fk references core.estados(id),
 	primary key (id_aplicante,id_oferta)
 );
 
@@ -162,6 +139,7 @@ language plpgsql
 as 
 $$
 declare
+	item text;
 	total_registros integer;
 	id_temporal uuid;
 begin
@@ -353,3 +331,22 @@ begin
 end;
 $procedure$
 ;
+create user user_db with encrypted password 'c0ntr4s3n4';
+
+grant connect on database hireflowdb to user_db;
+grant temporary on database hireflowdb to user_db;
+grant usage on schema core to user_db;
+grant create on schema core to user_db;
+grant select, references, insert, update, delete, trigger on all tables in schema core to user_db;
+grant usage, select on all sequences in schema core to user_db;
+grant execute on all functions in schema core to user_db;
+grant execute on all procedures in schema core to user_db;
+grant usage on schema information_schema to user_db;
+grant references on all tables in schema core to user_db;
+
+create user api_connection with encrypted password '4P1R3ST';
+
+grant connect on database hireflowdb to api_connection;
+grant usage on schema core to api_connection;
+grant select, insert, update, delete on all tables in schema core to api_connection;
+grant execute on all procedures in schema core to api_connection;

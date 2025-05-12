@@ -1,7 +1,20 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 import type { PropType } from 'vue';
+import { colorVariation } from '@/_mockApis/apps/notes/index';
+import FileMultiple from '@/components/forms/form-elements/fileinput/FileInput.vue';
+// common components
+const dialog = ref(false);
+const title = ref('');
 
+const color = ref('primary');
+function addNote() {
+    return (
+        getNote.value.push({ id: getId + 1, title: title.value, color: color.value, datef: new Date() }),
+        (dialog.value = false),
+        (title.value = '')
+    );
+}
 // Definición de la interfaz para los aplicantes
 interface Aplicante {
     nombre_aplicante: string
@@ -85,9 +98,24 @@ function getColor(estado: string) {
         </v-col> 
 
         <v-col class="text-right align-center">
-            <v-btn color="secondary" class="mx-2" variant="outlined" flat>
+            <v-btn color="secondary" class="mx-2" variant="outlined" flat @click="dialog= true">
                 Añadir CVs<v-icon class="mr-2">mdi-plus</v-icon>
             </v-btn>
+            
+        <v-dialog v-model="dialog" max-width="500">
+            <v-card>
+                <v-card-text>
+                    <h4 class="text-h6 mb-4">Cargar archivos</h4>
+                    <UiChildCard title="Multiple">
+                            <FileMultiple />
+                    </UiChildCard>
+                </v-card-text>
+                <v-card-actions>
+                    <v-btn color="primary" variant="tonal" @click="addNote">Guardar</v-btn>
+                    <v-btn color="error" variant="tonal" @click="dialog = false">Cerrar pestaña</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
         </v-col>
                         
     </v-row>
