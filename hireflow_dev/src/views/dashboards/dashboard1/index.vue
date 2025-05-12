@@ -1,6 +1,34 @@
 <script setup lang="ts">
 /*Call Components*/
-import RequerimentsCard from '@/components/dashboards/dashboard2/RequerimentsCard.vue';
+import {ref,  onMounted } from 'vue'
+const ofertas = ref([])
+const aplicaciones = ref([])
+
+async function cargarOfertas() {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/ofertas/`);
+    if (!response.ok) throw new Error('Error al cargar ofertas');
+    const data = await response.json();
+    ofertas.value = data;
+
+  } catch (error) {
+    console.error('Error al obtener los datos de las ofertas:', error);
+  }
+}
+async function cargarAplicantes() {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/aplicaciones/`);
+    if (!response.ok) throw new Error('Error al cargar aplicaciones');
+    const data = await response.json();
+    aplicaciones.value = data;
+
+  } catch (error) {
+    console.error('Error al obtener los datos de las aplicaciones:', error);
+  }
+}
+onMounted(async () => {
+  await cargarOfertas();
+})
 </script>
 <template>
     <!--cuando pongamos info lo podemos hacer modular, como los componentes son tan chiquitos lo hice así por ahora-->
@@ -13,13 +41,13 @@ import RequerimentsCard from '@/components/dashboards/dashboard2/RequerimentsCar
         <v-col cols="12" md="6">
                 <div class="bg-lightprimary pa-7 rounded-md">
                     <h2 class="text-primary text-24">Ofertas activas</h2>
-                    <h6 class="text-primary text-h1">28</h6>
+                    <h6 class="text-primary text-h1">{{ ofertas.length }}</h6>
                 </div>
         </v-col>
         <v-col cols="12" md="6">
                 <div class="bg-lightsecondary pa-7 rounded-md">
-                    <h2 class="text-secondary text-24">Ofertas activas</h2>
-                    <h6 class="text-secondary text-h1">28</h6>
+                    <h2 class="text-secondary text-24">total aplicantes</h2>
+                    <h6 class="text-secondary text-h1">{{ aplicaciones.length }}</h6>
                 </div>
         </v-col>
 

@@ -144,3 +144,21 @@ def get_all_ofertas(db=Depends(get_db)):
         )
         for aplicacion in aplicaciones
     ]
+    
+from fastapi import Query
+
+@router.get("/cv", summary="Obtener URLs de CVs por correo", response_model=List[str])
+def obtener_cvs_por_correo(correo: str = Query(...), db: Session = Depends(get_db)):
+    aplicacion_repo = AplicanteRepository(db)
+    aplicaciones = aplicacion_repo.get_all_aplicants()
+
+    cvs = [
+        aplicacion.aplicante.cv
+        for aplicacion in aplicaciones
+        if aplicacion.aplicante.correo == correo
+    ]
+
+    if not cvs:
+        raise HTTPException(status_code=404, detail="No se encontraron CVs para este correo")
+
+    return cvs
