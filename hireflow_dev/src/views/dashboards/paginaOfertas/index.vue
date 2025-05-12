@@ -58,7 +58,7 @@ const ofertasFiltradas = computed(() => {
     </v-col>
     <v-col>
       <div class="ml-auto">
-        <v-btn color="primary">Crear nueva oferta</v-btn>
+        <v-btn color="primary"@click="router.push('/dashboards/createOffer')">Crear nueva oferta</v-btn>
       </div>
     </v-col>
   </v-row>

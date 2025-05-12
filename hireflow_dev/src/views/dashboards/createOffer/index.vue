@@ -285,7 +285,7 @@ onMounted(async () => {
                 </v-col>
                 <v-col cols="12" sm="12" lg="6">
                     <UiChildCard title="Experiencia necesaria">
-                        <<v-text-field
+                        <v-text-field
                         label="Agregar item"
                         v-model="nuevaExp"
                         @keyup.enter="agregarExperiencia()"
