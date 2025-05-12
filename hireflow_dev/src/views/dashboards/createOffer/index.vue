@@ -97,6 +97,43 @@ const eliminarExperiencia = (index: number) => {
 
 const perfil = ref()
 
+const enviarDatos = () => {
+  const payload = {
+    nombre: nameOffer.value,
+    departamento: depaSeleccionado.value,
+    perfil: perfil.value,
+    habilidades_blandas: hab_blandas.value,
+    habilidades_tecnicas: hab_tecnicas.value,
+    titulos: estudios.value,
+    experiencia: experiencia.value,
+  };
+
+  // Aquí puedes realizar la llamada a tu API utilizando fetch o alguna otra librería como Axios
+  console.log('Datos a enviar:', JSON.stringify(payload, null, 2));
+
+  // Ejemplo de cómo podrías hacer la llamada con fetch:
+  fetch(`http://127.0.0.1:8000/ofertas/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Respuesta de la API:', data);
+      // Manejar la respuesta de la API aquí
+      if(data[0] = "oferta creada exitosamente" ){
+        alert( data[0])
+      }
+    })
+    .catch(error => {
+      console.error('Error al enviar los datos:', error);
+      alert("la oferta no se creo de forma exitosa:"+ error)
+      // Manejar errores aquí
+    });
+};
+
 onMounted(async () => {
   try {
      // Obtener los departamentos
@@ -160,7 +197,7 @@ onMounted(async () => {
                 </v-card>
             </v-col>
         
-        <UiParentCard title="Descripción resumida de la oferta">
+        <UiParentCard title="Descripción detallada de la oferta">
             <v-row>
                 <v-col cols="12" sm="12" lg="6">
                     <UiChildCard title="Estudios necesarios">
@@ -276,6 +313,7 @@ onMounted(async () => {
                 </v-col>
             </v-row>    
         </UiParentCard>
+        <v-btn style="margin-top: 20px;" color="primary" class="w-100" flat @click="enviarDatos()">Crear oferta</v-btn>
         
     </v-row>
 </template>
